@@ -15,6 +15,13 @@ binding = "ASSETS"
 binding = "CALENDAR_KV"
 id = "e733ec4365334516b4a2564905376024"
 
+# Sends contact-form emails via Cloudflare Email Routing (already configured
+# on this zone). No destination_address restriction here on purpose — the
+# actual recipient is the CONTACT_TO_ADDRESS secret (`wrangler secret put`),
+# not committed to this file.
+[[send_email]]
+name = "CONTACT_EMAIL"
+
 [observability.logs]
 enabled = true
 head_sampling_rate = 1

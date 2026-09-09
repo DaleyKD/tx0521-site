@@ -36,5 +36,5 @@ export const navigation: NavItem[] = [
       { label: 'Member Login', href: 'https://www.traillifeconnect.com/login', newTab: true },
     ],
   },
-  { label: 'Contact', href: 'https://www.tx0521.org/contact/' },
+  { label: 'Contact', href: '/contact/' },
 ];

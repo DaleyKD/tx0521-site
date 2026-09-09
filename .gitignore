@@ -20,6 +20,10 @@ pnpm-debug.log*
 .env
 .env.production
 
+# Wrangler local secret overrides (never commit real secrets here)
+.dev.vars
+.dev.vars.*
+
 # macOS-specific files
 .DS_Store
 
