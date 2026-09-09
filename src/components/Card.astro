@@ -1,0 +1,16 @@
+---
+interface Props {
+  /** 'plain' = red top-rule only (used on tinted/dark sections). 'surface' = white panel with shadow (used on cream/light sections). */
+  variant?: 'plain' | 'surface';
+  class?: string;
+  /** Optional badge/icon shown above the card's heading. */
+  image?: string;
+  imageAlt?: string;
+}
+
+const { variant = 'plain', class: className, image, imageAlt = '' } = Astro.props;
+---
+<div class:list={['card', `card-${variant}`, className]}>
+  {image && <img class="card-icon" src={image} alt={imageAlt} loading="lazy" />}
+  <slot />
+</div>

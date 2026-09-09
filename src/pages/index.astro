@@ -1,17 +1,54 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+import Card from '../components/Card.astro';
 
+const values = [
+  { name: 'Purity', text: 'God calls us to lives of holiness, being pure of heart, mind, word, and deed. We are to reserve sexual activity for the sanctity of marriage, a lifelong commitment before God between a man and a woman.' },
+  { name: 'Service', text: 'God calls us to become responsible members of our community and the world through selfless acts that contribute to the welfare of others.' },
+  { name: 'Stewardship', text: 'God calls us to use our God-given time, talents, and money wisely.' },
+  { name: 'Integrity', text: 'God calls us to live moral lives that demonstrate an inward motivation to do what is biblically right regardless of the cost.' },
+];
 ---
+<BaseLayout title="Home" description="Trail Life Troop TX-0521 serves Van Alstyne, TX and the surrounding area. We are Christ-centric and boy-focused.">
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="kicker">Trail Life Troop TX-0521</p>
+      <h1>Walk Worthy</h1>
+      <blockquote>…that you may walk worthy of the Lord, fully pleasing Him, being fruitful in every good work and increasing in the knowledge of God…<cite>Colossians 1:10</cite></blockquote>
+      <a class="button" href="/about/">About Our Troop</a>
+    </div>
+  </section>
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+  <section class="message-banner"><h2>Adventure <span>&gt;</span> Character <span>&gt;</span> Leadership</h2></section>
+
+  <section class="pillars">
+    <div class="pillar christ"><h2>Christ-Centered</h2></div>
+    <div class="pillar boy"><h2>Boy-Focused</h2></div>
+  </section>
+
+  <Section tone="cream" class="faith" narrow>
+    <h2>Statement of Faith</h2>
+    <p>We believe there is One Triune God: God the Father; Jesus Christ, His one and only Son; and the Holy Spirit, Creator of the universe and eternally existent. We believe the Holy Scriptures (Old and New Testaments) to be the inspired and authoritative Word of God. We believe each person is created in His image for the purpose of communing with and worshiping God. We believe in the ministry of the Holy Spirit, Who enables us to live godly lives. We believe each of us is called to love the Lord our God with all of our heart, mind, soul, and strength, and to love our neighbors as ourselves. We believe God calls us to lives of purity, service, stewardship, and integrity.</p>
+  </Section>
+
+  <Section tone="light" class="values">
+    <h2>Statement of Values</h2>
+    <div class="card-grid card-grid-4">
+      {values.map((v) => (
+        <Card class="value-card">
+          <h3>{v.name}</h3>
+          <p>{v.text}</p>
+        </Card>
+      ))}
+    </div>
+  </Section>
+
+  <section class="join">
+    <div>
+      <h2>Join the Adventure</h2>
+      <p>Are you ready for adventure, to encourage leadership in your sons, and strengthen families? Now is the perfect time for you and your sons to join our troop.</p>
+      <a class="button button-light" href="https://www.tx0521.org/contact/">Contact</a>
+    </div>
+  </section>
+</BaseLayout>

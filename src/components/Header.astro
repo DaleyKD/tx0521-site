@@ -1,0 +1,18 @@
+---
+import Navigation from './Navigation.astro';
+---
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="Troop TX-0521 home"><img src="/images/logo.png" alt="Troop TX-0521" width="392" height="120" /><img class="brand-mobile" src="/images/mobile-logo.png" alt="" width="160" height="160" /></a>
+    <button class="menu-button" aria-expanded="false" aria-controls="primary-nav"><span></span><span></span><span></span><span class="sr-only">Open navigation</span></button>
+    <Navigation />
+  </div>
+</header>
+<script>
+  const button = document.querySelector<HTMLButtonElement>('.menu-button');
+  const nav = document.querySelector<HTMLElement>('.primary-nav');
+  button?.addEventListener('click', () => {
+    const open = nav?.classList.toggle('open');
+    button.setAttribute('aria-expanded', String(open));
+  });
+</script>

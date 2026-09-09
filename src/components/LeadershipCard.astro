@@ -1,0 +1,10 @@
+---
+interface Props { name: string; role: string; image: string; bio?: string; }
+const { name, role, image, bio } = Astro.props;
+---
+<article class="leader">
+  <div class="leader-photo"><img src={image} alt={`Portrait of ${name}`} width="160" height="160" loading="lazy" /></div>
+  <h3>{name}</h3>
+  <p class="eyebrow-label">{role}</p>
+  {bio && <p class="leader-bio">{bio}</p>}
+</article>

@@ -1,0 +1,30 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  heading: string;
+  heroImage: string;
+  heroAlt?: string;
+  eyebrow?: string;
+  /** e.g. 'theme-green' | 'theme-gray' | 'theme-blue' — recolors accents to match a program's identity. */
+  theme?: string;
+  /** Optional program badge/logo shown under the heading, as on tx0521.org's own program pages. */
+  badge?: string;
+  badgeAlt?: string;
+}
+
+const { title, description, heading, heroImage, heroAlt = '', eyebrow, theme, badge, badgeAlt = '' } = Astro.props;
+---
+<BaseLayout title={title} description={description} theme={theme}>
+  <section class="page-hero">
+    <img class="page-hero-bg" src={heroImage} alt={heroAlt} />
+    <div>
+      {eyebrow && <p class="kicker">{eyebrow}</p>}
+      <h1>{heading}</h1>
+      {badge && <img class="page-hero-badge" src={badge} alt={badgeAlt} width="90" height="90" />}
+    </div>
+  </section>
+  <slot />
+</BaseLayout>

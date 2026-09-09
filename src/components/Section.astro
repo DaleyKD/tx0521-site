@@ -1,0 +1,19 @@
+---
+interface Props {
+  /** Extra classes for section-specific styling hooks. */
+  class?: string;
+  /** Background tone. */
+  tone?: 'light' | 'cream' | 'dark';
+  /** Narrower max-width for text-heavy sections. */
+  narrow?: boolean;
+  /** Anchor id, e.g. for in-page links like /about/#dues. */
+  id?: string;
+}
+
+const { class: className, tone = 'light', narrow = false, id } = Astro.props;
+---
+<section id={id} class:list={['tl-section', `tone-${tone}`, { narrow }, className]}>
+  <div class="tl-section-inner">
+    <slot />
+  </div>
+</section>

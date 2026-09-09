@@ -1,0 +1,121 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import Section from '../../../components/Section.astro';
+import Card from '../../../components/Card.astro';
+import JoinCta from '../../../components/JoinCta.astro';
+
+const patrols = [
+  { name: 'Fox Patrol', age: 'Ages 5–6', image: '/images/programs/wt-fox-patrol.svg', award: '/images/programs/wt-fox-forest-award.svg', text: "The youngest of the troop, Foxes are full of energy and joy. Everything is still so new and wondrous. These first two years help a Fox get to know Trail Life, their fellow Trailmen and leaders, have fun, and learn some skills. Foxes look up to older patrols and programs, and want to follow their lead. Foxes are only permitted to attend overnight campouts with a parent or guardian." },
+  { name: 'Hawk Patrol', age: 'Ages 7–8', image: '/images/programs/wt-hawk-patrol.svg', award: '/images/programs/wt-hawk-forest-award.svg', text: 'Hawks are starting to get their feet under them. They are learning social skills, developing better self-control, and have a better attention span. They want to solve bigger, more complex problems. With a desire to contribute, Hawks can help guide Foxes and teach new Trailmen some of the joining requirements, like the oath. Hawks are only permitted to attend overnight campouts with a parent or guardian.' },
+  { name: 'Mountain Lion Patrol', age: 'Ages 9–10', image: '/images/programs/wt-mountain-lion-patrol.svg', award: '/images/programs/wt-mountain-lion-forest-award.svg', text: "Within the Woodlands Trail, the Mountain Lions are the oldest and are looked up to by the Foxes and Hawks. They have more responsibilities and are expected to be good examples for the younger members. With these added responsibilities, Mountain Lions can earn Fireguard and Woodsman cards, which grant them the privilege of tending fires and using their pocket knives during overnight campouts. A parent or guardian must accompany a Mountain Lion on overnight campouts, though Mountain Lions are permitted to be in their own tent." },
+];
+
+const branches = [
+  { name: 'Heritage', text: "An exploration of American Heritage, Christian Heritage, and a boy's own family heritage, emphasizing the finest traditions of the heritage we obtain from our forefathers." },
+  { name: 'Hobbies', text: 'An exploration of various indoor and outdoor hobbies that demand varying levels of knowledge, skill, or aptitude.' },
+  { name: 'Life Skills', text: 'Teaching life lessons ranging from practical to higher-level interpersonal skill sets.' },
+  { name: 'Outdoor Skills', text: 'Gaining a basic understanding of woodcraft, hiking, exploration, and camping skills.' },
+  { name: 'Science and Technology', text: 'An exploration of physical and natural science concerning our created world.' },
+  { name: 'Sports and Fitness', text: 'Having fun in the outdoors with sports and other activities.' },
+  { name: 'Values', text: "Instilling Bible-based values within the boys, with a central focus on teachings of the Christian faith." },
+];
+---
+<PageLayout
+  title="Woodlands Trail"
+  description="Woodlands Trail is the first part of the Trail Life USA journey, for boys ages 5-10."
+  heading="Woodlands Trail"
+  heroImage="/images/woodlands-trail-hero.jpg"
+  heroAlt="Sunlit forest trail"
+  theme="theme-green"
+  badge="/images/programs/wt-logo.svg"
+  badgeAlt="Woodlands Trail program logo"
+>
+  <Section tone="cream" class="narrow-content">
+    <p>The Woodlands Trail is the first part of an exciting journey for a boy in Trail Life USA. It is for boys between the ages of 5 and 10.</p>
+    <p class="scripture">"Through wisdom a house is built, and by understanding it is established; by knowledge the rooms are filled with all precious and pleasant riches."<cite>Proverbs 24:3–4</cite></p>
+    <p>Woodlands Trail is based on knowledge. Each troop is grouped according to biblical principles, led by a Ranger, and each patrol has a designated trail guide.</p>
+  </Section>
+
+  <Section tone="light" class="centered-heading">
+    <h2>Age-Based Patrols</h2>
+    <div class="card-grid card-grid-3">
+      {patrols.map((p) => (
+        <Card>
+          <div class="card-header">
+            <div>
+              <h3>{p.name}</h3>
+              <p class="eyebrow-label">{p.age}</p>
+            </div>
+            <img class="card-header-icon" src={p.image} alt={`${p.name} badge`} loading="lazy" />
+          </div>
+          <p>{p.text}</p>
+        </Card>
+      ))}
+    </div>
+  </Section>
+
+  <Section tone="cream" class="centered-heading">
+    <h2>The Joining Award</h2>
+    <div class="prose">
+      <div class="badge-row">
+        {patrols.map((p) => <img src={p.award} alt={`${p.name} Joining Award`} loading="lazy" />)}
+      </div>
+      <p>Also known as the branch patch, the Joining Award is worn proudly by Trailmen upon completing the following core steps:</p>
+      <ul>
+        <li>Memorize the Trailman Oath.</li>
+        <li>Learn the Trailman Sign and when to use it.</li>
+        <li>Learn the Trailman Salute and when to use it.</li>
+        <li>Learn the Trailman Handshake.</li>
+        <li>Memorize the Pledge of Allegiance.</li>
+        <li>Understand how to properly fold the American flag. (Mountain Lions only)</li>
+      </ul>
+    </div>
+  </Section>
+
+  <Section tone="light" class="centered-heading">
+    <h2>The Seven Branches</h2>
+    <div class="prose">
+      <img class="section-icon" src="/images/programs/wt-branch-patch.svg" alt="Branches patch" loading="lazy" />
+      <p>During each two-year program, Trailmen focus on seven frontiers. As they participate in activities and learn more about each branch, they complete steps and earn a pin to affix to their patch.</p>
+    </div>
+    <div class="card-grid card-grid-3">
+      {branches.map((b) => (
+        <Card variant="surface">
+          <h3>{b.name}</h3>
+          <p>{b.text}</p>
+        </Card>
+      ))}
+    </div>
+  </Section>
+
+  <Section tone="cream" class="centered-heading">
+    <h2>Worthy Life Award</h2>
+    <div class="prose">
+      <img class="section-icon" src="/images/programs/wt-worthy-life-award.png" alt="Worthy Life Award" loading="lazy" />
+      <p>The most important special award within the Trail Life USA program centers on faith. At the Woodlands Trail level, Worthy Life involves intentional mentoring, hands-on activities, and practical applications that involve parents and troop mentors to help a boy gain knowledge of fundamental truths. It requires completing activities in four categories:</p>
+      <ul>
+        <li><strong>Devotional</strong>: Engaging with spiritual truth in a regular, transformative manner.</li>
+        <li><strong>Discipleship</strong>: Living your faith through service and learning about how others have done so.</li>
+        <li><strong>Discipline</strong>: Practicing intentional activities that result in spiritual growth, like regular prayer, fasting, journaling, memorizing Scripture, attending church services, giving, and serving.</li>
+        <li><strong>Demonstration</strong>: Evaluating and sharing Worthy Life experiences with parents, Troop, and/or church.</li>
+      </ul>
+      <p>Crosses can be earned at each program level, with the first cross presented along with the Award itself. The Worthy Life Award continues to be worn by the Trailman as long as he is a member of Trail Life USA.</p>
+    </div>
+  </Section>
+
+  <Section tone="dark" narrow>
+    <Card class="oath-card" image="/images/programs/wt-timberline-award.svg" imageAlt="Timberline Award">
+      <h2>Timberline Award</h2>
+      <p>The Timberline Award is the highest award a Trailman can achieve in the Woodlands Trail program. It is only available during their last year in the Woodlands Trail as a Mountain Lion, developed to celebrate a boy's entrance into the Navigators program. Once earned, it becomes a permanent part of the Trail Life uniform.</p>
+      <p><strong>Manhood Principles of the Timberline Award:</strong></p>
+      <ul>
+        <li>To live boldly and avoid being passive.</li>
+        <li>To live responsibly.</li>
+        <li>To lead courageously.</li>
+        <li>To live for the greater rewards of God.</li>
+      </ul>
+    </Card>
+  </Section>
+
+  <JoinCta heading="Ready for the Adventure to Begin?" text="Woodlands Trail is where the journey starts. Join Troop TX-0521 today." />
+</PageLayout>

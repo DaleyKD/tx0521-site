@@ -1,0 +1,156 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import Section from '../../../components/Section.astro';
+import Card from '../../../components/Card.astro';
+import JoinCta from '../../../components/JoinCta.astro';
+
+const coreBadges = ['Aquatics', 'Camping', 'Fire Ranger', 'First Aid', 'Our Flag', 'Outdoor Cooking', 'Ropework', 'Trail Skills', 'Woods Tools'];
+const electiveBadges = ['Heritage', 'Hobbies', 'Life Skills', 'Outdoor Skills', 'Sports and Fitness', 'Science and Technology', 'Values'];
+---
+<PageLayout
+  title="Navigators"
+  description="Navigators is the second part of the Trail Life USA journey, for boys ages 11-13."
+  heading="Navigators"
+  heroImage="/images/hero-mountains.png"
+  heroAlt="Mountain trail scenery"
+  theme="theme-gray"
+  badge="/images/programs/nav-logo.svg"
+  badgeAlt="Navigators program logo"
+>
+  <Section tone="cream" class="narrow-content">
+    <p>The Navigators program is the second part of the journey for a boy in Trail Life USA. It is for boys between the ages of 11 and 13.</p>
+    <p class="scripture">"Through wisdom a house is built, and by understanding it is established; by knowledge the rooms are filled with all precious and pleasant riches."<cite>Proverbs 24:3–4</cite></p>
+    <p>The Navigators program is based on understanding. Each troop is grouped according to biblical principles, led by a Trailmaster, and each patrol elects a Junior Patrol Leader.</p>
+  </Section>
+
+  <Section tone="light" class="centered-heading">
+    <h2>The Advancement Trail</h2>
+    <img class="advancement-trail" src="/images/programs/advancement-trail.webp" alt="Advancement trail: Recruit, Able, Ready, then the Ridgeline Award" loading="lazy" />
+  </Section>
+
+  <Section tone="cream" class="centered-heading">
+    <h2>Recruit Rank</h2>
+    <div class="prose">
+      <img class="section-icon" src="/images/programs/nav-recruit-rank.svg" alt="Recruit rank patch" loading="lazy" />
+      <p>This joining patch is given to the Navigator or Adventurer as he begins his trail to the Freedom Award.</p>
+    </div>
+    <div class="card-grid card-grid-4">
+      <Card>
+        <h3>Traditions</h3>
+        <ul>
+          <li>Memorize and agree to live by the Trailman Oath.</li>
+          <li>Memorize the Trailman Motto.</li>
+          <li>Demonstrate the Trailman sign, salute, and handshake.</li>
+          <li>Present yourself to your Patrol Leader and Trailmaster in a troop-approved uniform.</li>
+        </ul>
+      </Card>
+      <Card>
+        <h3>Citizenship</h3>
+        <ul>
+          <li>Memorize the Pledge of Allegiance.</li>
+          <li>Demonstrate properly folding the American flag.</li>
+        </ul>
+      </Card>
+      <Card>
+        <h3>Troop Involvement</h3>
+        <ul>
+          <li>Complete Trail Life Connect registration.</li>
+          <li>Maintain a level of Troop meeting attendance acceptable to your Trailmaster.</li>
+        </ul>
+      </Card>
+      <Card>
+        <h3>Review</h3>
+        <ul>
+          <li>Discuss Troop safety and the Freedom Trail.</li>
+          <li>Successfully complete an Advancement Conference in uniform.</li>
+        </ul>
+      </Card>
+    </div>
+  </Section>
+
+  <Section tone="light" class="centered-heading">
+    <h2>Able Rank</h2>
+    <div class="prose">
+      <img class="section-icon" src="/images/programs/nav-able-rank.svg" alt="Able rank patch" loading="lazy" />
+      <p>After earning the Recruit Rank, a Trailman focuses on the following:</p>
+    </div>
+    <div class="card-grid card-grid-2">
+      <Card variant="surface">
+        <h3>Trail Badge Work</h3>
+        <p>Earn a cumulative total of 6 Trail Badges, including any 4 Core Skills Trail Badges and any 2 Trail Badges of your choice.</p>
+      </Card>
+      <Card variant="surface">
+        <h3>Servant Service</h3>
+        <p>Complete 15 hours of service for each program year.</p>
+      </Card>
+      <Card variant="surface">
+        <h3>Troop Involvement</h3>
+        <p>Maintain a level of in-uniform troop meeting attendance acceptable to your Trailmaster, and participate in at least 6 troop activities per year, not including regular meetings.</p>
+      </Card>
+      <Card variant="surface">
+        <h3>Review</h3>
+        <p>Successfully complete an Advancement Conference and a Board of Review, both in uniform.</p>
+      </Card>
+    </div>
+  </Section>
+
+  <Section tone="cream" class="centered-heading">
+    <h2>Ready Rank</h2>
+    <div class="prose">
+      <img class="section-icon" src="/images/programs/nav-ready-rank.svg" alt="Ready rank patch" loading="lazy" />
+      <p>After earning the Able Rank, a Trailman focuses on the following:</p>
+    </div>
+    <div class="card-grid card-grid-2">
+      <Card>
+        <h3>Trail Badge Work</h3>
+        <p>Earn a cumulative total of 12 Trail Badges, including all 9 Core Skills Trail Badges plus any 3 of your choice.</p>
+      </Card>
+      <Card>
+        <h3>Servant Service</h3>
+        <p>Complete 15 hours of service for each program year.</p>
+      </Card>
+      <Card>
+        <h3>Leadership</h3>
+        <p>Serve as a Junior Patrol Leader or another troop-approved leadership role for a minimum of six months, and demonstrate leadership by instructing a patrol in skills approved by your Trailmaster.</p>
+      </Card>
+      <Card>
+        <h3>Review</h3>
+        <p>Successfully complete an Advancement Conference and a Board of Review, both in uniform.</p>
+      </Card>
+    </div>
+  </Section>
+
+  <Section tone="light" class="centered-heading">
+    <h2>Trail Badges</h2>
+    <div class="prose">
+      <img class="section-icon" src="/images/programs/nav-all-badges.svg" alt="Navigators Trail Badges" loading="lazy" />
+      <p>There are nine core skills Trail Badges and seven elective Trail Badges. Trailmen can also design their own badge.</p>
+    </div>
+    <div class="card-grid card-grid-2">
+      <Card variant="surface">
+        <h3>Core Skills (9)</h3>
+        <ul>{coreBadges.map((b) => <li>{b}</li>)}</ul>
+      </Card>
+      <Card variant="surface">
+        <h3>Electives (7)</h3>
+        <ul>{electiveBadges.map((b) => <li>{b}</li>)}</ul>
+      </Card>
+    </div>
+  </Section>
+
+  <Section tone="dark" narrow>
+    <Card class="oath-card" image="/images/programs/nav-ridgeline-award.svg" imageAlt="Ridgeline Award">
+      <h2>Ridgeline Award</h2>
+      <p>The Ready Rank is the highest rank a Navigator can earn. Beyond it lies a special opportunity: the Ridgeline Award, the Navigators program's capstone honor. Once earned, it becomes a permanent part of the Trail Life uniform.</p>
+      <p><strong>Earning it requires:</strong></p>
+      <ul>
+        <li>Being a registered Navigator with the Ready Rank.</li>
+        <li>Completing the Navigators Worthy Life Award.</li>
+        <li>Completing a community service project or multi-troop area event.</li>
+        <li>Successfully completing an Advancement Conference and Board of Review, both in uniform.</li>
+      </ul>
+    </Card>
+  </Section>
+
+  <JoinCta heading="Ready to Move Forward?" text="Navigators builds on the foundation of Woodlands Trail. Join Troop TX-0521 today." />
+</PageLayout>

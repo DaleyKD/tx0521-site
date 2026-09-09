@@ -1,0 +1,31 @@
+---
+import type { NavItem } from '../data/navigation';
+
+interface Props {
+  items: NavItem[];
+  depth: number;
+  isActive: (href?: string) => boolean;
+  linkProps: (item: NavItem) => Record<string, string>;
+}
+
+const { items, depth, isActive, linkProps } = Astro.props;
+---
+<ul class={depth === 0 ? undefined : 'submenu'}>
+  {items.map((item) => (
+    <li class={item.children ? 'has-menu' : undefined}>
+      {item.href ? (
+        <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined} {...linkProps(item)}>{item.label}</a>
+      ) : (
+        <span>{item.label}</span>
+      )}
+      {item.children && (
+        <>
+          <button class="submenu-button" data-depth={depth} aria-label={`Show ${item.label} menu`} aria-expanded="false">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+          </button>
+          <Astro.self items={item.children} depth={depth + 1} isActive={isActive} linkProps={linkProps} />
+        </>
+      )}
+    </li>
+  ))}
+</ul>

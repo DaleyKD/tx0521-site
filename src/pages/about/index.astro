@@ -1,0 +1,89 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Section from '../../components/Section.astro';
+import LeadershipCard from '../../components/LeadershipCard.astro';
+import Card from '../../components/Card.astro';
+
+const leaders = [
+  { name: 'Scott Bergener', role: 'Troopmaster', image: '/images/scott-bergener.jpeg', bio: 'Scott is a lover of God, family, country, and the outdoors. Inculcating these values into his son (and three daughters) drives all his efforts as the spiritual leader of his family. He knows that Trail Life is the vehicle to do the same for other trailmen.' },
+  { name: 'Andrew Braden', role: 'Ranger', image: '/images/profile.png' },
+  { name: 'Aaron Wilson', role: 'Trailmaster', image: '/images/profile.png', bio: 'Aaron is a husband, dad, and U.S. Navy veteran, with a background in construction and small business ownership. He enjoys working with his hands, exploring new hobbies, and spending time outdoors in God’s creation.\n\nServing in Trail Life gives him an opportunity to invest in the next generation and help young men grow in faith, character, and confidence, becoming problem-solvers who use creativity and teamwork to overcome challenges.' },
+  { name: 'Eric Wooton', role: 'Advisor', image: '/images/eric-wooton.jpg' },
+  { name: 'Kyle Daley', role: 'Chaplain', image: '/images/kyle-daley.jpg', bio: 'Kyle loves to see kids learn about Jesus and dive deeper into scripture. He is not an outdoors guy; but since his two sons are active Trailmen, he is eagerly trying to enjoy it more.' },
+  { name: 'Gabe Castaneda', role: 'Troop Ministry Liaison', image: '/images/profile.png' },
+];
+---
+<PageLayout
+  title="Our Troop"
+  description="Troop TX-0521 was chartered by The Crossroads Community Church in July 2022."
+  heading="Our Troop"
+  heroImage="/images/troop-photo.jpg"
+  heroAlt="Troop TX-0521 outdoors"
+>
+  <Section tone="cream" class="history">
+    <h2>Established in 2022</h2>
+    <div>
+      <p>Troop TX-0521 was chartered by The Crossroads Community Church in July 2022.</p>
+      <p>In January 2022, the senior pastor of The Crossroads Community Church announced that the church was going to host a Trail Life troop. A small handful of families came to the orientation meeting, some with the intention to only learn about the program. By the end of that short meeting, everyone in attendance had committed to being the core leadership team of this new troop.</p>
+      <p>The next six months consisted of prayer, not only by the core leadership team but also by the entire congregation. On July 22, 2022, the charter for Troop TX-0521 was established.</p>
+      <p>However, prayer has not ceased. To this day, we pray constantly for God’s blessing upon this troop; for wisdom on how to lead well; to seek his guidance, and to help us raise these boys into godly men.</p>
+      <p>We are continuing to grow, both in numbers and in our relationship with God. Our first troop meeting was September 4, 2022, with over 21 youth in attendance. By the end of that program year, we had grown to 28.</p>
+      <p>We started our second year with 38.</p>
+      <p>This is now our fourth year, and things do not appear to be slowing down. Praise the Lord!</p>
+      <p>May God be greatly glorified in this troop.</p>
+    </div>
+  </Section>
+
+  <Section tone="light" class="leaders-section">
+    <h2>Meet Our Leadership Team</h2>
+    <div class="leaders">{leaders.map((leader) => <LeadershipCard {...leader} />)}</div>
+  </Section>
+
+  <Section tone="cream" class="dues-section" id="dues">
+    <h2>Youth Dues</h2>
+    <div class="dues">
+      <Card variant="surface" class="dues-card">
+        <h3>National Annual Membership Fee</h3>
+        <p class="price">$42.98</p>
+        <p>This fee is paid directly to Trail Life USA by each individual youth and adult member when they submit their initial membership application to Trail Life USA, and annually thereafter on the anniversary of their membership.</p>
+        <p>Youth fee ($42.98) broken down as follows:</p>
+        <ul>
+          <li><strong>Member Fee</strong> ($35.62): This base fee provides for operations of the Home Office.</li>
+          <li><strong>Annual Insurance Assessment</strong> ($7.36): This variable amount accounts for market fluctuations in the costs of accident and sickness coverage, general liability, and umbrella coverage. Basically, it is a “pass through” fee.</li>
+        </ul>
+        <p>Adult fee ($46.55) broken down as follows:</p>
+        <ul>
+          <li><strong>Member Fee</strong> ($23.03): This base fee provides for operations of the Home Office.</li>
+          <li><strong>Annual Insurance Assessment</strong> ($8.98): This variable amount accounts for market fluctuations in the costs of accident and sickness coverage, general liability, and umbrella coverage. Basically, it is a “pass through” fee.</li>
+          <li><strong>Annual Youth Protection Assessment</strong> ($14.54): This variable adjusts for fluctuations in the costs of criminal background checks, supplemental evaluation processes, and youth protection training for adult members.</li>
+        </ul>
+      </Card>
+      <Card variant="surface" class="dues-card">
+        <h3>Local Troop Dues</h3>
+        <p class="price">$75.00 / $100.00</p>
+        <p><strong>Woodlands Trail</strong>: $75<br /><strong>Navigators / Adventurers</strong>: $100</p>
+        <p>The local troop dues help offset the cost of awards, such as pins, badges and medallions, handbooks, troop patch, and other operating costs. This is paid directly to the local troop. Trailmen cannot participate in activities, adventures, or trips until local dues are received.</p>
+        <p>Acceptable forms of payment for local troop dues are cash, check (made payable to <strong>Trail Life TX-0521</strong>), or Zeffy.</p>
+        <h3>Uniform Costs</h3>
+        <p class="price">$75.00 <em>(approximate)</em></p>
+        <p>The uniform costs include the troop uniform shirt, shoulder loops, lanyard, and hat. These items are to be bought individually at the <a href="https://shop.traillifeusa.com" target="_blank" rel="noreferrer">Trail Life USA Shop</a>. To save money on shipping, consider asking if another family wants to combine orders with you.</p>
+        <p>More details about our troop’s <a href="https://www.tx0521.org/about/uniforms/">uniform code can be found here</a>.</p>
+      </Card>
+    </div>
+  </Section>
+
+  <Section tone="dark" class="oath-section">
+    <Card class="oath-card">
+      <h2>Oath</h2>
+      <p>On my honor,<br />I will do my best<br />To serve God and my country;<br />To respect authority;<br />To be a good steward of creation;<br />And to treat others as I want to be treated.</p>
+    </Card>
+    <Card class="oath-card">
+      <h2>Mission</h2>
+      <p>Our Mission is to guide generations of courageous young men to honor God, lead with integrity, serve others, and experience outdoor adventure.</p>
+    </Card>
+    <Card class="oath-card">
+      <h2>Vision</h2>
+      <p>Our Vision is to be the premier national character development organization for young men, which produces godly and responsible husbands, fathers, and citizens.</p>
+    </Card>
+  </Section>
+</PageLayout>

@@ -1,0 +1,15 @@
+---
+interface Props {
+  heading: string;
+  text: string;
+}
+
+const { heading, text } = Astro.props;
+---
+<section class="join">
+  <div>
+    <h2>{heading}</h2>
+    <p>{text}</p>
+    <a class="button button-light" href="/about/join/">Join Our Troop</a>
+  </div>
+</section>

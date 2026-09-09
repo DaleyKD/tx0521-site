@@ -1,0 +1,169 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import Section from '../../../components/Section.astro';
+import Card from '../../../components/Card.astro';
+import JoinCta from '../../../components/JoinCta.astro';
+
+const coreBadges = ['Aquatics', 'Camping', 'Fire Ranger', 'First Aid', 'Our Flag', 'Outdoor Cooking', 'Ropework', 'Trail Skills', 'Woods Tools'];
+const electiveBadges = ['Heritage', 'Hobbies', 'Life Skills', 'Outdoor Skills', 'Sports and Fitness', 'Science and Technology', 'Values'];
+const freedomBadges = ['Citizenship', 'Emergency Preparedness', 'Family Man', 'Outdoor Life', 'Personal Resources', 'Fitness'];
+
+const leadershipOptions = [
+  'Serve as a First Officer, Second Officer, Quartermaster, Patrol Leader, or other troop-approved leadership role for a minimum of six months.',
+  'At five troop meetings or outings, instruct a Woodlands Trail patrol in significant skills approved by your Advisor and the Woodlands Trail Ranger.',
+  'At five troop meetings or outings, instruct a Navigators or Adventurers patrol in significant Trail Badge skills approved by your Advisor and Trail Guide.',
+  'Plan and implement a troop or patrol camping or high adventure trip, including the program, food, and travel plans.',
+  'Plan and implement an Adventurers-only high adventure or extended travel experience.',
+  'Plan and implement a troop-wide or patrol service project.',
+];
+
+const ranks = [
+  {
+    name: 'Journey Rank',
+    image: '/images/programs/adv-journey-rank.svg',
+    tone: 'cream',
+    intro: 'After earning the Ready Rank, a Trailman focuses on the following:',
+    badges: 'Earn a cumulative total of 15 Trail Badges: all 9 Core Skills, any 1 True Freedom badge, and any 5 others of your choice.',
+    freedomTrail: 'Draft a plan for completing at least four Freedom Experiences as an Adventurer, including two minors and a major.',
+    leadership: 'Since earning the Ready Rank, complete one of the following:',
+    showLeadershipOptions: true,
+  },
+  {
+    name: 'Ascent Rank',
+    image: '/images/programs/adv-ascent-rank.svg',
+    tone: 'light',
+    intro: 'After earning the Journey Rank, a Trailman focuses on the following:',
+    badges: 'Earn a cumulative total of 20 Trail Badges: all 9 Core Skills, any 3 True Freedom badges, and any 8 others of your choice.',
+    freedomTrail: 'Complete at least one Freedom Experience since becoming an Adventurer.',
+    leadership: 'Since earning the Journey Rank, complete one of the same leadership options as above.',
+    showLeadershipOptions: false,
+  },
+  {
+    name: 'Horizon Rank',
+    image: '/images/programs/adv-horizon-rank.svg',
+    tone: 'cream',
+    intro: 'After earning the Ascent Rank, a Trailman focuses on the following:',
+    badges: 'Earn a cumulative total of 25 Trail Badges: all 9 Core Skills, all 6 True Freedom badges, and any 10 others of your choice.',
+    freedomTrail: 'Complete at least 2 Freedom Experiences since becoming an Adventurer.',
+    leadership: 'Since earning the Ascent Rank, complete one of the same leadership options as above.',
+    showLeadershipOptions: false,
+  },
+];
+---
+<PageLayout
+  title="Adventurers"
+  description="Adventurers is the third part of the Trail Life USA journey, for boys ages 14-17."
+  heading="Adventurers"
+  heroImage="/images/adventurers-hero.jpg"
+  heroAlt="Whitewater rafting"
+  theme="theme-blue"
+  badge="/images/programs/adv-logo.svg"
+  badgeAlt="Adventurers program logo"
+>
+  <Section tone="cream" class="narrow-content">
+    <p>The Adventurers program is the third part of the journey for a boy in Trail Life USA. It is for boys between the ages of 14 and 17. Adventurers must earn all the same ranks as Navigators (Recruit, Able, Ready) before earning the first rank for Adventurers: Journey Rank.</p>
+    <p class="scripture">"Through wisdom a house is built, and by understanding it is established; by knowledge the rooms are filled with all precious and pleasant riches."<cite>Proverbs 24:3–4</cite></p>
+    <p>The Adventurers program is based on wisdom. Each troop is grouped according to biblical principles, led by a Guide, and each patrol elects a Patrol Leader.</p>
+  </Section>
+
+  <Section tone="light" class="centered-heading">
+    <h2>A Note for Adventurers</h2>
+    <div class="prose">
+      <p>You are the most important element of your own success in Trail Life. What you learn by participating in planning and carrying out your program will benefit you as you enter college and the job world.</p>
+      <p>You will learn things about yourself as a leader that you might not have the opportunity to learn in many other settings.</p>
+      <p>You also have a pivotal role in setting the monthly program of activities for your patrol and the entire Troop. When the activities and programs that you help plan and implement come together and everyone has a good time and learns something, you'll experience a first-rate feeling of accomplishment.</p>
+    </div>
+  </Section>
+
+  <Section tone="cream" class="centered-heading">
+    <h2>Your Relationship with Navigators</h2>
+    <div class="prose">
+      <p>As the older youth in your Troop, the Adventurers are vital to the development of younger boys. Adults can be great role models, but you are the immediate model the younger Trailmen follow. You are not just working on your own advancement; you are indirectly working on theirs. Do everything you can to Walk Worthy and serve as an example for younger Trailmen.</p>
+    </div>
+  </Section>
+
+  <Section tone="light" class="centered-heading">
+    <h2>The Advancement Trail</h2>
+    <img class="advancement-trail" src="/images/programs/advancement-trail.webp" alt="Advancement trail: Journey, Ascent, Horizon, then the Freedom Award" loading="lazy" />
+  </Section>
+
+  {ranks.map((r) => (
+    <Section tone={r.tone} class="centered-heading">
+      <h2>{r.name}</h2>
+      <div class="prose">
+        <img class="section-icon" src={r.image} alt={`${r.name} patch`} loading="lazy" />
+        <p>{r.intro}</p>
+      </div>
+      <div class="card-grid card-grid-3">
+        <Card variant="surface">
+          <h3>Trail Badge Work</h3>
+          <p>{r.badges}</p>
+        </Card>
+        <Card variant="surface">
+          <h3>Servant Service</h3>
+          <p>Complete 20 hours of service for each program year.</p>
+        </Card>
+        <Card variant="surface">
+          <h3>Freedom Trail</h3>
+          <p>{r.freedomTrail}</p>
+        </Card>
+        <Card variant="surface">
+          <h3>Troop Involvement</h3>
+          <p>Maintain a level of in-uniform troop meeting attendance acceptable to your Advisor, and participate in at least 6 troop activities per year, not including regular meetings.</p>
+        </Card>
+        <Card variant="surface">
+          <h3>Leadership</h3>
+          <p>{r.leadership}</p>
+          {r.showLeadershipOptions && (
+            <ul>{leadershipOptions.map((o) => <li>{o}</li>)}</ul>
+          )}
+        </Card>
+        <Card variant="surface">
+          <h3>Review</h3>
+          <p>Successfully complete an Advancement Conference and a Board of Review, both in uniform.</p>
+        </Card>
+      </div>
+    </Section>
+  ))}
+
+  <Section tone="light" class="centered-heading">
+    <h2>Trail Badges</h2>
+    <div class="prose">
+      <img class="section-icon" src="/images/programs/adv-true-freedom-badges.svg" alt="Adventurers Trail Badges" loading="lazy" />
+      <p>In addition to the nine core skills and seven elective Trail Badges, Adventurers also work toward six True Freedom Trail Badges. Trailmen can also design their own badge.</p>
+    </div>
+    <div class="card-grid card-grid-2">
+      <Card variant="surface">
+        <h3>Core Skills (9)</h3>
+        <ul>{coreBadges.map((b) => <li>{b}</li>)}</ul>
+      </Card>
+      <Card variant="surface">
+        <h3>Electives (7)</h3>
+        <ul>{electiveBadges.map((b) => <li>{b}</li>)}</ul>
+      </Card>
+      <Card variant="surface">
+        <h3>True Freedom (6)</h3>
+        <ul>{freedomBadges.map((b) => <li>{b}</li>)}</ul>
+      </Card>
+    </div>
+  </Section>
+
+  <Section tone="dark" narrow>
+    <Card class="oath-card card-capstone no-border">
+      <h2>Freedom Award</h2>
+      <img class="card-icon" src="/images/programs/adv-freedom-award.svg" alt="Freedom Award" loading="lazy" />
+      <p>The Freedom Award is the shining capstone of the Adventurers program, as well as your entire time in all of the Trail Life programs. The process of earning it will stretch you, but the lessons learned along the Freedom Trail will shape you and remain with you for the rest of your life.</p>
+      <p><strong>Earning it requires:</strong></p>
+      <ul>
+        <li>Being a registered Navigator and earning the Horizon Rank.</li>
+        <li>At least 16 troop activities as an Adventurer, not including regular meetings.</li>
+        <li>Completing the Adventurers Worthy Life Award.</li>
+        <li>Four Freedom Experiences: a major and two minors.</li>
+        <li>A Freedom Servant Leadership Project.</li>
+        <li>Successfully completing an Advancement Conference and a Freedom Award Board of Review, both in uniform.</li>
+      </ul>
+    </Card>
+  </Section>
+
+  <JoinCta heading="Ready for the Next Step?" text="Adventurers is the final part of the Trail Life USA journey. Join Troop TX-0521 today." />
+</PageLayout>

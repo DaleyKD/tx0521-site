@@ -1,0 +1,251 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+/* ---- Trail Life USA approved brand palette (2024 Brand Standards & Style Guide) ----
+   Kept deliberately narrow: red + brown do the work of accent/ink, navy is the only
+   secondary hue (links only), tan/cream are neutrals. */
+:root {
+  --red: #ba262d;        /* Pantone 1795 — primary */
+  --brown: #876237;      /* Pantone 7575 — primary */
+  --brown-dark: #3e2e18; /* Pantone 462 */
+  --tan: #d8ccb7;        /* Pantone 7502 */
+  --navy: #003b59;       /* Pantone 302 — link color only */
+  --cream: #faf7f2;
+  --ink: #241d15;
+
+  --max: 1180px;
+  --section-pad: 5.5rem;
+  --section-pad-mobile: 3.25rem;
+  --font-body: 'Open Sans', Arial, sans-serif;
+  --font-serif: 'PT Serif', Georgia, serif;
+
+  /* Per-program identity colors, sampled from each program's own badge/page on
+     tx0521.org (Woodlands Trail green, Navigators gray, Adventurers blue). Applied
+     via the .theme-* body classes below — everything else stays on --red. */
+  --wt-green: #1f4b3a;
+  --wt-green-tint: #9fd8c2;
+  --nav-slate: #53565a;
+  --nav-slate-tint: #c9cbce;
+  --adv-blue: #045099;
+  --adv-blue-tint: #8fc7e5;
+
+  --accent: var(--red);
+  --accent-tint: var(--tan);
+  --hero-tone: var(--brown-dark);
+}
+
+.theme-green { --accent: var(--wt-green); --accent-tint: var(--wt-green-tint); --hero-tone: var(--wt-green); }
+.theme-gray { --accent: var(--nav-slate); --accent-tint: var(--nav-slate-tint); --hero-tone: var(--nav-slate); }
+.theme-blue { --accent: var(--adv-blue); --accent-tint: var(--adv-blue-tint); --hero-tone: var(--adv-blue); }
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.75; background: #fff; }
+h1, h2, h3 { font-family: var(--font-body); font-weight: 800; line-height: 1.15; margin: 0 0 .65rem; letter-spacing: .01em; color: var(--brown-dark); }
+h1 { font-size: clamp(2.6rem, 5vw, 5rem); }
+h2 { font-size: clamp(1.9rem, 3.2vw, 3rem); }
+h3 { font-size: 1.3rem; }
+p { margin: 0 0 1.1rem; }
+a { color: var(--navy); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--red); outline-offset: 3px; }
+.sr-only { clip: rect(0,0,0,0); clip-path: inset(50%); height: 1px; overflow: hidden; position: absolute; white-space: nowrap; width: 1px; }
+
+/* ---- Header / Navigation ---- */
+.site-header { background: #fff; position: relative; z-index: 10; border-bottom: 3px solid var(--red); }
+.header-inner { width: min(var(--max), 94vw); margin: auto; min-height: 98px; display: flex; align-items: center; justify-content: space-between; }
+.brand img { width: 230px; height: auto; display: block; }
+.brand-mobile { display: none !important; }
+.primary-nav > ul { margin: 0; padding: 0; list-style: none; display: flex; align-items: center; gap: 1.75rem; }
+.primary-nav li { position: relative; }
+.primary-nav a, .primary-nav span { display: block; color: var(--brown-dark); text-decoration: none; font-size: .95rem; font-weight: 600; letter-spacing: 0; text-transform: none; }
+.primary-nav a:hover, .primary-nav a[aria-current=page] { color: var(--red); }
+.submenu { position: absolute; left: -1rem; top: 100%; width: 240px; padding: .65rem 0 !important; margin: 0 !important; list-style: none; background: #fff; border-top: 3px solid var(--red); box-shadow: 0 10px 24px #0002; display: none; }
+.has-menu:hover > .submenu, .has-menu:focus-within > .submenu, .has-menu.expanded > .submenu { display: block; }
+.submenu a, .submenu span { padding: .55rem 1.1rem; font-size: .85rem; font-weight: 400; text-transform: none; letter-spacing: .01em; }
+.submenu-button { display: inline-flex; align-items: center; justify-content: center; background: none; border: 0; color: var(--brown); cursor: pointer; padding: .2rem; margin-left: .15rem; }
+.submenu-button svg { transition: transform .15s ease; }
+.has-menu:hover > .submenu-button svg, .has-menu.expanded > .submenu-button svg { transform: rotate(180deg); }
+.has-menu { display: flex; align-items: center; }
+
+/* Third level (e.g. About > Programs): flies out to the side instead of down,
+   so it never overlaps its own siblings. Desktop only — mobile handles this
+   as a plain nested accordion, see the max-width query below. */
+@media (min-width: 701px) {
+  .submenu .has-menu { position: relative; }
+  .submenu .submenu { left: 100%; top: -.65rem; }
+  .submenu .submenu-button svg { transform: rotate(-90deg); }
+  .submenu .has-menu:hover > .submenu-button svg, .submenu .has-menu.expanded > .submenu-button svg { transform: rotate(-90deg); }
+}
+.menu-button { display: none; background: transparent; border: 0; cursor: pointer; padding: .4rem; }
+.menu-button span:not(.sr-only) { display: block; width: 25px; height: 2px; background: var(--red); margin: 5px; }
+
+/* ---- Hero ---- */
+.hero { min-height: 620px; display: grid; place-items: center; color: #fff; text-align: center; background: linear-gradient(rgba(10,7,4,.72), rgba(10,7,4,.72)), url('/images/hero-mountains.png') center 46%/cover; }
+.hero-inner { max-width: 860px; padding: var(--section-pad) 1.5rem; }
+.kicker { font-family: var(--font-serif); font-style: italic; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-tint); margin-bottom: .5rem; font-size: .95rem; }
+.hero h1 { color: #fff; font-weight: 800; }
+.hero blockquote { font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: clamp(1.2rem, 2.2vw, 1.65rem); line-height: 1.55; margin: 1rem auto 2rem; max-width: 780px; }
+.hero cite { display: block; font-family: var(--font-body); font-style: normal; font-size: .95rem; margin-top: 1rem; letter-spacing: .05em; color: var(--tan); }
+
+/* Buttons: hover is a simple, predictable darken/lighten — no border-color swap, no
+   see-through state, so it never disappears against a busy background. */
+.button { background: var(--red); color: #fff; display: inline-block; font-size: .88rem; font-weight: 700; padding: .85rem 1.9rem; text-decoration: none; text-transform: uppercase; letter-spacing: .05em; border: 2px solid var(--red); border-radius: 2px; transition: background-color .15s ease; }
+.button:hover { background: #8f1e24; border-color: #8f1e24; }
+.button-light { background: #fff; color: var(--brown-dark); border-color: #fff; }
+.button-light:hover { background: var(--tan); border-color: var(--tan); color: var(--brown-dark); }
+
+/* ---- Adventure > Character > Leadership banner ---- */
+.message-banner { background: var(--brown-dark); color: #fff; min-height: 170px; display: grid; place-items: center; text-align: center; padding: 2rem; }
+.message-banner h2 { color: #fff; font-weight: 700; letter-spacing: .03em; }
+.message-banner span { color: var(--red); }
+
+/* ---- Christ-Centered / Boy-Focused pillars ----
+   Solid brand-color panels, not photos: guarantees WCAG contrast for the headline
+   text and avoids repeating the hero photo. */
+.pillars { display: grid; grid-template-columns: 1fr 1fr; }
+.pillar { min-height: 300px; display: grid; place-items: center; padding: 2rem; color: #fff; text-align: center; }
+.pillar.christ { background: var(--red); }
+.pillar.boy { background: var(--navy); }
+.pillar h2 { font-size: clamp(2rem, 4vw, 3.4rem); font-weight: 800; color: #fff; text-transform: uppercase; }
+
+/* ---- Generic Section component: every tone gets identical top/bottom padding ---- */
+.tl-section.tone-light { background: #fff; }
+.tl-section.tone-cream { background: var(--cream); }
+.tl-section.tone-dark { background: var(--hero-tone); color: #f2ece0; }
+.tl-section.tone-dark .card { border-top-color: var(--accent-tint); }
+.tl-section.tone-dark h2, .tl-section.tone-dark h3 { color: #fff; }
+.tl-section-inner { width: min(var(--max), 90vw); margin: 0 auto; padding: var(--section-pad) 0; }
+.tl-section.narrow .tl-section-inner { max-width: 700px; text-align: center; }
+
+/* Reusable heading/copy alignment helpers, so pages don't reach for inline styles. */
+.centered-heading .tl-section-inner > h2 { text-align: center; margin-bottom: 2.5rem; }
+.narrow-content .tl-section-inner { max-width: 700px; }
+/* Same width constraint, usable directly on an element inside a full-width section. */
+.prose { max-width: 700px; margin: 0 auto 2.5rem; }
+
+/* Reusable scripture citation (program pages each cite Proverbs 24:3-4) */
+.scripture { position: relative; font-family: var(--font-serif); font-style: italic; font-weight: 700; font-size: 1.45rem; line-height: 1.6; color: var(--accent); border-left: 4px solid var(--accent); padding: .25rem 0 .25rem 1.5rem; margin: 1.75rem 0; }
+.scripture cite { display: block; font-family: var(--font-body); font-style: normal; font-weight: 700; font-size: .85rem; text-transform: uppercase; letter-spacing: .08em; margin-top: .75rem; color: var(--brown); }
+
+/* Statement of Faith: one short passage, so it reads as centered prose, not a split grid. */
+.faith p { font-family: var(--font-serif); font-size: 1.15rem; line-height: 1.8; text-align: left; }
+
+/* ---- Reusable Card (see Card.astro) ----
+   'plain' = red top-rule only, used on tinted/dark backgrounds.
+   'surface' = white panel + shadow, used on cream/light backgrounds. */
+.card { border-top: 4px solid var(--accent); padding-top: 1.1rem; }
+.card-icon { display: block; height: 64px; width: auto; margin-bottom: .85rem; }
+/* Inside a centered/narrow context, an icon with no explicit centering would sit
+   flush-left while the text around it is centered — keep them aligned. */
+.tl-section.narrow .card-icon { margin-left: auto; margin-right: auto; }
+.tl-section.narrow .card ul { text-align: left; max-width: 480px; margin: 0 auto 1.1rem; }
+
+/* Patrol/rank cards with the badge to the right of the title, not stacked above it. */
+.card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.card-header h3 { margin-bottom: .1rem; }
+.card-header-icon { height: 56px; width: auto; flex-shrink: 0; }
+
+/* Capstone award card: the biggest, most polished award on a program page. */
+.card-capstone { text-align: center; border-top-width: 6px; padding: 2.5rem 2rem; }
+.card-capstone.no-border { border-top: none; padding-top: 1.1rem; }
+.card-capstone .card-icon { height: 130px; margin: 1.25rem auto; }
+.card-capstone h2 { font-size: clamp(2rem, 3.5vw, 2.6rem); }
+.card-capstone ul { text-align: left; max-width: 520px; margin: 1.25rem auto 0; }
+.section-icon { display: block; height: 90px; width: auto; margin: 0 auto 1.25rem; }
+.badge-row { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.badge-row img { height: 96px; width: auto; }
+.advancement-trail { display: block; width: 100%; max-width: 720px; height: auto; margin: 0 auto 2.5rem; }
+.card-surface { background: #fff; border-radius: 4px; padding: 2rem 2.25rem; box-shadow: 0 8px 22px #0000000d; }
+.card h3:first-child, .card h2:first-child { margin-top: 0; }
+
+/* ---- Reusable card grids: N-up on desktop, 2-up on tablet, 1-up on mobile ---- */
+.card-grid { display: grid; gap: 2rem; }
+.card-grid-2 { grid-template-columns: repeat(2, 1fr); }
+.card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.card-grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* Statement of Values: four discrete beliefs, so each gets its own card in a grid —
+   deliberately NOT the same shape as the single-passage Statement of Faith above. */
+.values .tl-section-inner > h2 { text-align: center; margin-bottom: 2.5rem; }
+.value-card h3 { color: var(--brown); font-size: 1.05rem; text-transform: uppercase; letter-spacing: .04em; }
+.value-card p { font-size: .95rem; }
+
+.join { background: var(--brown-dark); color: #fff; text-align: center; padding: var(--section-pad) 1.5rem; }
+.join > div { max-width: 730px; margin: auto; }
+.join h2 { color: #fff; font-weight: 700; }
+
+/* ---- About page hero ---- */
+.page-hero { height: 320px; position: relative; overflow: hidden; display: grid; place-items: center; color: #fff; text-align: center; background: var(--hero-tone); }
+.page-hero-bg { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: .3; }
+.page-hero div { position: relative; }
+.page-hero h1 { color: #fff; font-weight: 800; }
+.page-hero-badge { display: block; margin: 1rem auto 0; height: 90px; width: 90px; object-fit: contain; background: #fff; border-radius: 50%; padding: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.35); }
+
+.history .tl-section-inner { display: grid; grid-template-columns: 31% 1fr; gap: 9%; }
+
+.leaders-section .tl-section-inner > h2 { text-align: center; margin-bottom: 2.5rem; }
+.leaders { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem 2.5rem; }
+.leader { text-align: center; background: var(--cream); border-top: 4px solid var(--red); border-radius: 0 0 6px 6px; padding: 2rem 1.5rem 1.75rem; }
+.leader .leader-photo { width: 160px; height: 160px; margin: 0 auto 1.2rem; border-radius: 50%; overflow: hidden; border: 4px solid #fff; box-shadow: 0 0 0 3px var(--tan); }
+.leader .leader-photo img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.leader h3 { margin-bottom: .1rem; color: var(--brown-dark); }
+.eyebrow-label { color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; font-size: .8rem; margin-bottom: 1rem; }
+.leader-bio { white-space: pre-line; text-align: left; font-size: .93rem; }
+
+.dues-section > .tl-section-inner > h2 { text-align: center; margin-bottom: 2.5rem; }
+.dues { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+.dues h3 { color: var(--red); margin-top: 0; }
+.dues-card h3:not(:first-child) { margin-top: 2.5rem; }
+.price { font-family: var(--font-serif); font-weight: 700; font-size: 2.1rem; color: var(--brown-dark); line-height: 1; margin-bottom: 1.4rem; }
+.dues ul { padding-left: 1.2rem; margin-top: -.5rem; margin-bottom: 1.2rem; }
+
+.oath-section .tl-section-inner { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+.oath-section h2 { color: #fff; }
+.oath-section p { color: #f2ece0; }
+
+.site-footer { background: var(--navy); color: #fff; text-align: center; padding: 1.75rem; }
+.site-footer p { margin: 0; font-size: .78rem; }
+.site-footer a { color: var(--tan); }
+
+@media (max-width: 900px) {
+  .header-inner { min-height: 78px; }
+  .brand img:not(.brand-mobile) { width: 195px; }
+  .primary-nav > ul { gap: 1rem; }
+  .primary-nav a, .primary-nav span { font-size: .82rem; }
+  .pillars { grid-template-columns: 1fr; }
+  .pillar { min-height: 220px; }
+  .history .tl-section-inner, .dues, .oath-section .tl-section-inner { grid-template-columns: 1fr; gap: 2.25rem; }
+  .card-grid-3, .card-grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .leaders { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+  .leader .leader-photo { width: 140px; height: 140px; }
+}
+
+@media (max-width: 700px) {
+  body { font-size: 15px; }
+  .header-inner { min-height: 72px; }
+  .brand img:not(.brand-mobile) { display: none; }
+  .brand-mobile { display: block !important; width: 52px !important; }
+  .menu-button { display: block; }
+  .primary-nav { display: none; position: absolute; left: 0; right: 0; top: 72px; background: #fff; border-top: 1px solid #ddd; padding: 1rem 6vw 1.5rem; box-shadow: 0 12px 16px #0002; }
+  .primary-nav.open { display: block; }
+  .primary-nav > ul { display: block; }
+  .primary-nav li { display: block; }
+  .primary-nav > ul > li { border-bottom: 1px solid #ececec; padding: .2rem 0; }
+  .primary-nav a, .primary-nav span { font-size: .88rem; padding: .55rem 0; }
+  .primary-nav li.has-menu { display: flex; flex-wrap: wrap; align-items: center; }
+  .has-menu > a, .has-menu > span { flex: 1 1 auto; padding: .55rem 0; }
+  .submenu-button { position: static; flex: 0 0 auto; padding: .5rem; margin-left: .25rem; }
+  .submenu { position: static; flex-basis: 100%; box-shadow: none; border-top: none; width: auto; padding-left: 1rem !important; background: none; border-left: 2px solid var(--tan); margin-left: .1rem !important; }
+  .submenu a, .submenu span { color: var(--brown); }
+  .has-menu:hover > .submenu { display: none; }
+  .has-menu.expanded > .submenu { display: block; }
+  .hero { min-height: 560px; }
+  .hero-inner { padding: var(--section-pad-mobile) 1.2rem; }
+  .hero blockquote { font-size: 1.2rem; }
+  .message-banner { min-height: 145px; }
+  .tl-section-inner { width: min(88vw, 600px); padding: var(--section-pad-mobile) 0; }
+  .card-grid-2, .card-grid-3, .card-grid-4 { grid-template-columns: 1fr; }
+  .page-hero { height: 230px; }
+  .leaders { grid-template-columns: 1fr; gap: 1.5rem; max-width: 340px; margin: 0 auto; }
+  .dues-card { padding: 1.75rem 1.5rem; }
+  .join { padding: var(--section-pad-mobile) 1.5rem; }
+}

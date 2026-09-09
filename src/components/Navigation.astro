@@ -1,0 +1,25 @@
+---
+import { navigation, type NavItem } from '../data/navigation';
+import NavList from './NavList.astro';
+
+const path = Astro.url.pathname;
+// Exact match only — a parent like "About" should not light up just because a
+// descendant page (e.g. Join Our Troop) is the one actually being viewed.
+const isActive = (href?: string) => !!href && href === path;
+
+function linkProps(item: NavItem) {
+  return item.newTab ? { target: '_blank', rel: 'noreferrer' } : {};
+}
+---
+<nav id="primary-nav" class="primary-nav" aria-label="Primary navigation">
+  <NavList items={navigation} depth={0} isActive={isActive} linkProps={linkProps} />
+</nav>
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.submenu-button').forEach((item) => {
+    item.addEventListener('click', () => {
+      const parent = item.parentElement;
+      const open = parent?.classList.toggle('expanded');
+      item.setAttribute('aria-expanded', String(open));
+    });
+  });
+</script>
