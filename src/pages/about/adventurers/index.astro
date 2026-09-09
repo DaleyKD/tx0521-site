@@ -17,7 +17,7 @@ const leadershipOptions = [
   'Plan and implement a troop-wide or patrol service project.',
 ];
 
-const ranks = [
+const ranks: { name: string; image: string; tone: 'light' | 'cream'; intro: string; badges: string; freedomTrail: string; leadership: string; showLeadershipOptions: boolean }[] = [
   {
     name: 'Journey Rank',
     image: '/images/programs/adv-journey-rank.svg',

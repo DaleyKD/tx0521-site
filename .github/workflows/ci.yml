@@ -1,0 +1,31 @@
+name: CI
+
+# Validates every PR into master (branch protection requires this to pass
+# before merging). Cloudflare only builds/deploys master itself — this is
+# where non-production branches get checked.
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    name: Lint, typecheck, and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build

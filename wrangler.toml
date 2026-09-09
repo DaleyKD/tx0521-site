@@ -2,6 +2,11 @@ name = "tx0521"
 main = "./worker/index.js"
 compatibility_date = "2026-09-09"
 
+# We're not using per-version Preview URLs (no gradual/versioned deployments,
+# and PR previews are handled by GitHub Actions, not Cloudflare's own branch
+# builds) — disable explicitly rather than leaving it to the workers.dev default.
+preview_urls = false
+
 [assets]
 directory = "./dist"
 binding = "ASSETS"
@@ -9,3 +14,14 @@ binding = "ASSETS"
 [[kv_namespaces]]
 binding = "CALENDAR_KV"
 id = "e733ec4365334516b4a2564905376024"
+
+[observability.logs]
+enabled = true
+head_sampling_rate = 1
+invocation_logs = true
+persist = true
+
+[observability.traces]
+enabled = false
+head_sampling_rate = 1
+persist = true
