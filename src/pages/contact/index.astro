@@ -1,0 +1,141 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Section from '../../components/Section.astro';
+import Card from '../../components/Card.astro';
+---
+<PageLayout
+  title="Contact"
+  description="Get in touch with Trail Life Troop TX-0521."
+  heading="Contact"
+  heroImage="/images/contact-hero.jpg"
+  heroAlt="Aerial view of a green forest"
+>
+  <Section tone="light">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <Card variant="surface">
+          <h2>Get in Touch</h2>
+          <h3>Social</h3>
+          <p><a href="https://fb.me/tx0521" target="_blank" rel="noreferrer">Facebook</a></p>
+          <h3>Meeting Times</h3>
+          <p>August to May<br />1st and 3rd Sundays<br />5 pm to 6:30 pm</p>
+          <h3>Meeting Location</h3>
+          <p>The Crossroads Community Church<br />Van Alstyne, TX 75495</p>
+          <div class="contact-map">
+            <iframe
+              title="Map to The Crossroads Community Church, Van Alstyne, TX"
+              src="https://maps.google.com/maps?q=The%20Crossroads%20Community%20Church%2C%20Van%20Alstyne%2C%20TX%2075495&t=m&z=15&output=embed&iwloc=near"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </Card>
+      </div>
+
+      <div class="contact-form-wrap">
+        <Card variant="surface">
+          <h2>Send Us a Message</h2>
+          <form id="contact-form" novalidate>
+            <div class="form-row">
+              <label>
+                First Name *
+                <input type="text" name="firstName" autocomplete="given-name" required maxlength="100" />
+              </label>
+              <label>
+                Last Name *
+                <input type="text" name="lastName" autocomplete="family-name" required maxlength="100" />
+              </label>
+            </div>
+            <div class="form-row">
+              <label>
+                ZIP Code *
+                <input type="text" name="zip" inputmode="numeric" autocomplete="postal-code" required maxlength="5" data-mask="zip" placeholder="12345" />
+              </label>
+              <label>
+                Phone Number *
+                <input type="tel" name="phone" autocomplete="tel" required maxlength="14" data-mask="phone" placeholder="(555) 555-5555" />
+              </label>
+            </div>
+            <label>
+              Email *
+              <input type="email" name="email" autocomplete="email" required maxlength="200" />
+            </label>
+            <label>
+              Message *
+              <textarea name="message" rows="6" required maxlength="5000"></textarea>
+            </label>
+            <p class="form-honeypot" aria-hidden="true">
+              <label>Website<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+            </p>
+            <p id="contact-status" class="form-status" role="status" hidden></p>
+            <button type="submit" class="button">Send</button>
+          </form>
+        </Card>
+      </div>
+    </div>
+  </Section>
+</PageLayout>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const statusEl = document.getElementById('contact-status');
+
+  // Lightweight input masking — no library, just format-as-you-type. Both
+  // masks strip everything but digits first, so paste/autofill still works.
+  document.querySelectorAll<HTMLInputElement>('[data-mask="zip"]').forEach((el) => {
+    el.addEventListener('input', () => {
+      el.value = el.value.replace(/\D/g, '').slice(0, 5);
+    });
+  });
+  document.querySelectorAll<HTMLInputElement>('[data-mask="phone"]').forEach((el) => {
+    el.addEventListener('input', () => {
+      const digits = el.value.replace(/\D/g, '').slice(0, 10);
+      el.value = formatPhone(digits);
+    });
+  });
+
+  function formatPhone(digits: string) {
+    if (digits.length === 0) return '';
+    if (digits.length < 4) return `(${digits}`;
+    if (digits.length < 7) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+    return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+  }
+
+  if (form && statusEl) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      setStatus('Sending...', 'sending');
+      if (submitBtn) submitBtn.disabled = true;
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const result = await res.json();
+
+        if (res.ok && result.ok) {
+          setStatus("Thanks! We've received your message and will be in touch soon.", 'success');
+          form.reset();
+        } else {
+          setStatus(result.error || 'Something went wrong. Please try again.', 'error');
+        }
+      } catch {
+        setStatus('Something went wrong. Please check your connection and try again.', 'error');
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
+    });
+  }
+
+  function setStatus(text: string, kind: 'sending' | 'success' | 'error') {
+    if (!statusEl) return;
+    statusEl.textContent = text;
+    statusEl.hidden = false;
+    statusEl.className = `form-status is-${kind}`;
+  }
+</script>

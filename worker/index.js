@@ -23,10 +23,19 @@
 //      (feed down, changed shape, rate-limited, etc.). This is what lets us
 //      degrade to "slightly stale calendar" instead of "broken calendar".
 import ICAL from 'ical.js';
+import { EmailMessage } from 'cloudflare:email';
+import { createMimeMessage, Mailbox } from 'mimetext';
 
 const ICAL_FEED_URL = 'https://www.traillifeconnect.com/icalendar/tkbapf3m5536/na/public';
 const KV_KEY = 'calendar-events-v1';
 const CACHE_TTL_SECONDS = 900; // 15 minutes
+
+// The sending address isn't sensitive (it's a fixed, non-personal "noreply"
+// address), so it's fine as a plain constant. The destination address is a
+// Wrangler secret instead of a constant/wrangler.toml var — set via
+// `wrangler secret put CONTACT_TO_ADDRESS` — so it never lives in the repo,
+// even though info@tx0521.org itself is already public on the site today.
+const CONTACT_FROM_ADDRESS = 'noreply@tx0521.org';
 
 // How far back/forward to expand recurring events (weekly troop meetings, etc.)
 // into concrete instances, so the client never needs an RRULE-aware calendar plugin.
@@ -39,6 +48,10 @@ export default {
 
     if (url.pathname === '/api/calendar' && request.method === 'GET') {
       return handleCalendar(request, env, ctx);
+    }
+
+    if (url.pathname === '/api/contact' && request.method === 'POST') {
+      return handleContact(request, env);
     }
 
     // Anything else reaching the Worker didn't match a static file or a known
@@ -104,6 +117,91 @@ function withCacheStatus(response, status) {
   const headers = new Headers(response.headers);
   headers.set('x-calendar-cache', status);
   return new Response(response.body, { status: response.status, headers });
+}
+
+// POST /api/contact — sends a plain-text email through Cloudflare's own Email
+// Routing (the `CONTACT_EMAIL` send_email binding) to the troop's contact
+// address, which is already configured in the zone to forward to the real
+// inbox. No third-party email provider or API key involved.
+async function handleContact(request, env) {
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return contactError('Invalid request body.', 400);
+  }
+
+  // Honeypot: a hidden field real visitors never see or fill in. A bot that
+  // fills every field on the form trips this; respond as if it worked so the
+  // bot doesn't learn anything, but never send the email.
+  if (typeof body.website === 'string' && body.website.trim() !== '') {
+    return contactSuccess();
+  }
+
+  const fields = validateContactFields(body);
+  if (fields.error) return contactError(fields.error, 422);
+
+  if (!env.CONTACT_EMAIL || !env.CONTACT_TO_ADDRESS) {
+    return contactError('Contact form is not configured.', 500);
+  }
+
+  try {
+    const msg = createMimeMessage();
+    msg.setSender({ name: 'Troop TX-0521 Website', addr: CONTACT_FROM_ADDRESS });
+    msg.setRecipient(env.CONTACT_TO_ADDRESS);
+    msg.setHeader('Reply-To', new Mailbox(fields.email));
+    msg.setSubject(`Contact form: ${fields.firstName} ${fields.lastName}`);
+    msg.addMessage({
+      contentType: 'text/plain',
+      data: [
+        `Name: ${fields.firstName} ${fields.lastName}`,
+        `Email: ${fields.email}`,
+        `Phone: ${fields.phone}`,
+        `ZIP Code: ${fields.zip}`,
+        '',
+        'Message:',
+        fields.message,
+      ].join('\n'),
+    });
+
+    const email = new EmailMessage(CONTACT_FROM_ADDRESS, env.CONTACT_TO_ADDRESS, msg.asRaw());
+    await env.CONTACT_EMAIL.send(email);
+    return contactSuccess();
+  } catch (err) {
+    return contactError('Unable to send your message right now. Please try again shortly.', 502, err);
+  }
+}
+
+function validateContactFields(body) {
+  const firstName = trimTo(body.firstName, 100);
+  const lastName = trimTo(body.lastName, 100);
+  const zip = trimTo(body.zip, 10);
+  const phone = trimTo(body.phone, 30);
+  const email = trimTo(body.email, 200);
+  const message = trimTo(body.message, 5000);
+
+  if (!firstName || !lastName) return { error: 'Please enter your first and last name.' };
+  if (!/^\d{5}(-\d{4})?$/.test(zip)) return { error: 'Please enter a valid ZIP code.' };
+  if (!phone || phone.replace(/\D/g, '').length < 10) return { error: 'Please enter a valid phone number.' };
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { error: 'Please enter a valid email address.' };
+  if (!message) return { error: 'Please enter a message.' };
+
+  return { firstName, lastName, zip, phone, email, message };
+}
+
+function trimTo(value, maxLength) {
+  return typeof value === 'string' ? value.trim().slice(0, maxLength) : '';
+}
+
+function contactSuccess() {
+  return new Response(JSON.stringify({ ok: true }), { headers: { 'content-type': 'application/json' } });
+}
+
+function contactError(error, status, cause) {
+  return new Response(JSON.stringify({ ok: false, error, detail: cause ? String(cause) : undefined }), {
+    status,
+    headers: { 'content-type': 'application/json' },
+  });
 }
 
 async function fetchAndParse() {

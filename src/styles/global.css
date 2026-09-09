@@ -264,6 +264,37 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--red); outline-o
 .calendar-popover-location { display: block; color: var(--brown); font-size: .85rem; margin-top: .2rem; }
 .calendar-popover p { margin: .6rem 0 0; color: var(--ink); }
 
+/* ---- Contact page ---- */
+.contact-grid { display: grid; grid-template-columns: 32% 1fr; gap: 2.5rem; align-items: start; }
+.contact-info h2, .contact-form-wrap h2 { color: var(--brown-dark); }
+.contact-info h3 { color: var(--red); font-size: .85rem; text-transform: uppercase; letter-spacing: .04em; margin: 1.25rem 0 .25rem; }
+.contact-info h3:first-of-type { margin-top: 1.5rem; }
+.contact-map { margin-top: 1rem; border-radius: 4px; overflow: hidden; aspect-ratio: 4 / 3; }
+.contact-map iframe { display: block; width: 100%; height: 100%; border: 0; }
+.contact-info p { margin-bottom: .25rem; }
+#contact-form { display: flex; flex-direction: column; gap: 1.1rem; margin-top: 1rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+#contact-form label { display: flex; flex-direction: column; gap: .4rem; font-size: .85rem; font-weight: 700; color: var(--brown-dark); }
+#contact-form input, #contact-form textarea {
+  font-family: var(--font-body);
+  font-size: .95rem;
+  font-weight: 400;
+  color: var(--ink);
+  padding: .65rem .75rem;
+  border: 1px solid #d7d2c8;
+  border-radius: 4px;
+  background: #fff;
+}
+#contact-form input:focus, #contact-form textarea:focus { outline: 2px solid var(--red); outline-offset: 1px; border-color: var(--red); }
+#contact-form textarea { resize: vertical; }
+.form-honeypot { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.form-status { font-size: .9rem; font-weight: 700; padding: .5rem 0; margin: 0; }
+.form-status.is-sending { color: var(--brown); }
+.form-status.is-success { color: var(--wt-green); }
+.form-status.is-error { color: var(--red); }
+#contact-form .button { align-self: flex-start; border-radius: 2px; cursor: pointer; }
+#contact-form .button:disabled { opacity: .6; cursor: not-allowed; }
+
 @media (max-width: 900px) {
   .header-inner { min-height: 78px; }
   .brand img:not(.brand-mobile) { width: 195px; }
@@ -275,6 +306,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--red); outline-o
   .card-grid-3, .card-grid-4 { grid-template-columns: repeat(2, 1fr); }
   .leaders { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
   .leader .leader-photo { width: 140px; height: 140px; }
+  .contact-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 700px) {
@@ -306,4 +338,5 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--red); outline-o
   .leaders { grid-template-columns: 1fr; gap: 1.5rem; max-width: 340px; margin: 0 auto; }
   .dues-card { padding: 1.75rem 1.5rem; }
   .join { padding: var(--section-pad-mobile) 1.5rem; }
+  .form-row { grid-template-columns: 1fr; }
 }

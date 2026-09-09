@@ -19,6 +19,7 @@
     "astro": "^7.3.2",
     "fullcalendar": "^7.1.0",
     "ical.js": "^2.2.1",
+    "mimetext": "^3.0.28",
     "temporal-polyfill": "^1.0.4"
   },
   "allowScripts": {
