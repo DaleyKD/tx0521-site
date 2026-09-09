@@ -7,7 +7,7 @@ const path = Astro.url.pathname;
 // descendant page (e.g. Join Our Troop) is the one actually being viewed.
 const isActive = (href?: string) => !!href && href === path;
 
-function linkProps(item: NavItem) {
+function linkProps(item: NavItem): Record<string, string> {
   return item.newTab ? { target: '_blank', rel: 'noreferrer' } : {};
 }
 ---
