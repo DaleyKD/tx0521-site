@@ -8,14 +8,11 @@ const ICAL_FEED_URL = 'https://www.traillifeconnect.com/icalendar/tkbapf3m5536/n
   title="Calendar"
   description="Upcoming meetings, campouts, and events for Trail Life Troop TX-0521."
   heading="Calendar"
-  heroImage="/images/hero-mountains.png"
-  heroAlt="Mountain trail scenery"
+  heroImage="/images/calendar-hero.jpg"
+  heroAlt="Troop TX-0521 calendar"
 >
-  <Section tone="cream" class="narrow-content">
-    <p>Below are our troop's upcoming meetings, campouts, and events, synced from TrailLifeConnect. Click any event for details.</p>
-  </Section>
-
   <Section tone="light">
+    <p class="calendar-intro">Synced from TrailLifeConnect. Hover or tap any event for details.</p>
     <div id="troop-calendar" data-events-url="/api/calendar"></div>
     <p id="calendar-error" class="calendar-error" hidden>
       We couldn't load the calendar right now. You can still
@@ -32,23 +29,128 @@ const ICAL_FEED_URL = 'https://www.traillifeconnect.com/icalendar/tkbapf3m5536/n
 
   const el = document.getElementById('troop-calendar');
   const errorEl = document.getElementById('calendar-error');
+
   if (el) {
+    const popover = createPopover();
+
     const calendar = new Calendar(el, {
       plugins: [dayGridPlugin, listPlugin, interactionPlugin],
       initialView: window.innerWidth < 700 ? 'listMonth' : 'dayGridMonth',
       headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,listMonth' },
+      buttonText: { today: 'Today', month: 'Month', list: 'List' },
       height: 'auto',
       events: el.dataset.eventsUrl,
       eventSourceFailure() {
         el.hidden = true;
         if (errorEl) errorEl.hidden = false;
       },
-      eventDidMount(info) {
-        if (info.event.extendedProps.location) {
-          info.el.title = `${info.event.title} (${info.event.extendedProps.location})`;
-        }
+      eventMouseEnter(info) {
+        popover.show(info.event, info.el);
+      },
+      eventMouseLeave() {
+        popover.hide();
+      },
+      eventClick(info) {
+        info.jsEvent.preventDefault();
+        popover.toggle(info.event, info.el);
+      },
+      datesSet() {
+        popover.hide();
       },
     });
     calendar.render();
+
+    document.addEventListener('click', (e) => {
+      if (!(e.target instanceof Node)) return;
+      if (!popover.el.contains(e.target) && !el.contains(e.target)) popover.hide();
+    });
+  }
+
+  function createPopover() {
+    const popEl = document.createElement('div');
+    popEl.className = 'calendar-popover';
+    popEl.setAttribute('role', 'tooltip');
+    document.body.appendChild(popEl);
+
+    let pinnedEvent: import('@fullcalendar/core').EventApi | null = null;
+
+    const timeFormatter = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit' });
+    const dateFormatter = new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+
+    function describe(event: import('@fullcalendar/core').EventApi) {
+      if (event.allDay) return dateFormatter.format(event.start ?? undefined);
+      const start = event.start ? timeFormatter.format(event.start) : '';
+      const end = event.end ? timeFormatter.format(event.end) : '';
+      return end ? `${start} – ${end}` : start;
+    }
+
+    function render(event: import('@fullcalendar/core').EventApi) {
+      const location = event.extendedProps.location as string | undefined;
+      const description = event.extendedProps.description as string | undefined;
+      popEl.innerHTML = '';
+
+      const title = document.createElement('strong');
+      title.textContent = event.title;
+      popEl.appendChild(title);
+
+      const time = document.createElement('span');
+      time.className = 'calendar-popover-time';
+      time.textContent = describe(event);
+      popEl.appendChild(time);
+
+      if (location) {
+        const loc = document.createElement('span');
+        loc.className = 'calendar-popover-location';
+        loc.textContent = location;
+        popEl.appendChild(loc);
+      }
+
+      if (description && description !== event.title) {
+        const desc = document.createElement('p');
+        desc.textContent = description;
+        popEl.appendChild(desc);
+      }
+    }
+
+    function position(targetEl: HTMLElement) {
+      const rect = targetEl.getBoundingClientRect();
+      const popRect = popEl.getBoundingClientRect();
+      let left = rect.left + window.scrollX;
+      let top = rect.bottom + window.scrollY + 8;
+
+      const maxLeft = window.scrollX + document.documentElement.clientWidth - popRect.width - 12;
+      left = Math.max(window.scrollX + 12, Math.min(left, maxLeft));
+
+      if (rect.bottom + popRect.height + 8 > window.innerHeight) {
+        top = rect.top + window.scrollY - popRect.height - 8;
+      }
+
+      popEl.style.left = `${left}px`;
+      popEl.style.top = `${top}px`;
+    }
+
+    return {
+      el: popEl,
+      show(event: import('@fullcalendar/core').EventApi, targetEl: HTMLElement) {
+        if (pinnedEvent) return;
+        render(event);
+        popEl.classList.add('is-visible');
+        position(targetEl);
+      },
+      hide() {
+        pinnedEvent = null;
+        popEl.classList.remove('is-visible');
+      },
+      toggle(event: import('@fullcalendar/core').EventApi, targetEl: HTMLElement) {
+        if (pinnedEvent === event) {
+          this.hide();
+          return;
+        }
+        pinnedEvent = event;
+        render(event);
+        popEl.classList.add('is-visible');
+        position(targetEl);
+      },
+    };
   }
 </script>
