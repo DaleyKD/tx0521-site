@@ -1,0 +1,19 @@
+---
+---
+<button id="scroll-to-top" type="button" aria-label="Scroll to top" hidden>
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 5l-7 7h4v7h6v-7h4z"/></svg>
+</button>
+
+<script>
+  const button = document.getElementById('scroll-to-top') as HTMLButtonElement | null;
+  if (button) {
+    const toggle = () => {
+      button.hidden = window.scrollY < 400;
+    };
+    window.addEventListener('scroll', toggle, { passive: true });
+    toggle();
+    button.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+</script>

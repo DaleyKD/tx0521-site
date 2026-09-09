@@ -1,0 +1,64 @@
+---
+interface Hotspot {
+  title: string;
+  /** Rendered as HTML — source content includes <strong>/<em>/<ul> formatting. */
+  content: string;
+  /** Position as a percentage of the image's width/height. */
+  left: number;
+  top: number;
+  /** Which side of the dot the popover opens toward. */
+  placement: 'top' | 'bottom' | 'left' | 'right';
+}
+
+interface Props {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  hotspots: Hotspot[];
+}
+
+const { src, alt, width, height, hotspots } = Astro.props;
+---
+<div class="hotspot-image">
+  <img {src} {alt} {width} {height} loading="lazy" />
+  {
+    hotspots.map((h) => (
+      <button type="button" class="hotspot-dot" data-placement={h.placement} style={`left:${h.left}%;top:${h.top}%`} aria-expanded="false" aria-label={h.title}>
+        <span class="hotspot-pulse" aria-hidden="true" />
+        <svg class="hotspot-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 5v14M5 12h14" stroke="#fff" stroke-width="2.5" stroke-linecap="round" />
+        </svg>
+        <div class="hotspot-popover" role="tooltip">
+          <p class="hotspot-popover-title">{h.title}</p>
+          <div class="hotspot-popover-content" set:html={h.content} />
+        </div>
+      </button>
+    ))
+  }
+</div>
+
+<script>
+  // Desktop (has a real pointer) relies on CSS :hover/:focus-visible alone.
+  // Touch devices get tap-to-toggle instead, since there's no hover to rely on.
+  const isTouch = !window.matchMedia('(hover: hover)').matches;
+  if (isTouch) {
+    const dots = document.querySelectorAll<HTMLButtonElement>('.hotspot-dot');
+    const closeAll = () => dots.forEach((d) => d.setAttribute('aria-expanded', 'false'));
+
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const isOpen = dot.getAttribute('aria-expanded') === 'true';
+        closeAll();
+        dot.setAttribute('aria-expanded', String(!isOpen));
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!(e.target as Element).closest('.hotspot-dot')) closeAll();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeAll();
+    });
+  }
+</script>

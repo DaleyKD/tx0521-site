@@ -11,22 +11,22 @@ export const navigation: NavItem[] = [
   { label: 'Home', href: '/' },
   {
     label: 'About',
-    href: '/about/',
+    href: '/about',
     children: [
-      { label: 'Our Troop', href: '/about/' },
+      { label: 'Our Troop', href: '/about' },
       {
         label: 'Programs',
         children: [
-          { label: 'Woodlands Trail', href: '/about/woodlands-trail/' },
-          { label: 'Navigators', href: '/about/navigators/' },
-          { label: 'Adventurers', href: '/about/adventurers/' },
+          { label: 'Woodlands Trail', href: '/about/woodlands-trail' },
+          { label: 'Navigators', href: '/about/navigators' },
+          { label: 'Adventurers', href: '/about/adventurers' },
         ],
       },
-      { label: 'Uniforms', href: 'https://www.tx0521.org/about/uniforms/' },
-      { label: 'Join Our Troop', href: '/about/join/' },
+      { label: 'Uniforms', href: '/about/uniforms' },
+      { label: 'Join Our Troop', href: '/about/join' },
     ],
   },
-  { label: 'Calendar', href: '/calendar/' },
+  { label: 'Calendar', href: '/calendar' },
   { label: 'Shop', href: 'https://shop.traillifeusa.com', newTab: true },
   {
     label: 'Links',
@@ -36,5 +36,5 @@ export const navigation: NavItem[] = [
       { label: 'Member Login', href: 'https://www.traillifeconnect.com/login', newTab: true },
     ],
   },
-  { label: 'Contact', href: '/contact/' },
+  { label: 'Contact', href: '/contact' },
 ];

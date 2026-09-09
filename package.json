@@ -16,6 +16,7 @@
     "typecheck": "astro check"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
     "astro": "^7.3.2",
     "fullcalendar": "^7.1.0",
     "ical.js": "^2.2.1",
