@@ -2,6 +2,9 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import Section from '../../components/Section.astro';
 import Card from '../../components/Card.astro';
+
+// Public by design — Turnstile sitekeys aren't secret, only the widget secret is.
+const TURNSTILE_SITEKEY = '0x4AAAAAAEuJA7-ln9j2jcrX';
 ---
 <PageLayout
   title="Contact"
@@ -18,7 +21,7 @@ import Card from '../../components/Card.astro';
           <h3>Social</h3>
           <p><a href="https://fb.me/tx0521" target="_blank" rel="noreferrer">Facebook</a></p>
           <h3>Meeting Times</h3>
-          <p>August to May<br />1st and 3rd Sundays<br />5 pm to 6:30 pm</p>
+          <p>August - May<br />1st and 3rd Sundays<br />5 - 6:30 pm</p>
           <h3>Meeting Location</h3>
           <p>The Crossroads Community Church<br />Van Alstyne, TX 75495</p>
           <div class="contact-map">
@@ -67,6 +70,13 @@ import Card from '../../components/Card.astro';
             <p class="form-honeypot" aria-hidden="true">
               <label>Website<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
             </p>
+            <div
+              class="cf-turnstile"
+              data-sitekey={TURNSTILE_SITEKEY}
+              data-action="contact"
+              data-appearance="interaction-only"
+            >
+            </div>
             <p id="contact-status" class="form-status" role="status" hidden></p>
             <button type="submit" class="button">Send</button>
           </form>
@@ -75,6 +85,8 @@ import Card from '../../components/Card.astro';
     </div>
   </Section>
 </PageLayout>
+
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 <script>
   const form = document.getElementById('contact-form') as HTMLFormElement | null;
@@ -128,6 +140,8 @@ import Card from '../../components/Card.astro';
         setStatus('Something went wrong. Please check your connection and try again.', 'error');
       } finally {
         if (submitBtn) submitBtn.disabled = false;
+        // The token is single-use — reset so a retry gets a fresh one.
+        (window as any).turnstile?.reset();
       }
     });
   }

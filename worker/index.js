@@ -37,6 +37,9 @@ const CACHE_TTL_SECONDS = 900; // 15 minutes
 // even though info@tx0521.org itself is already public on the site today.
 const CONTACT_FROM_ADDRESS = 'noreply@tx0521.org';
 
+const TURNSTILE_ACTION = 'contact';
+const TURNSTILE_VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
+
 // How far back/forward to expand recurring events (weekly troop meetings, etc.)
 // into concrete instances, so the client never needs an RRULE-aware calendar plugin.
 const WINDOW_PAST_DAYS = 60;
@@ -131,6 +134,9 @@ async function handleContact(request, env) {
     return contactError('Invalid request body.', 400);
   }
 
+  const verified = await verifyTurnstile(body['cf-turnstile-response'], env, request);
+  if (!verified) return contactError('We could not verify you are human. Please try again.', 403);
+
   // Honeypot: a hidden field real visitors never see or fill in. A bot that
   // fills every field on the form trips this; respond as if it worked so the
   // bot doesn't learn anything, but never send the email.
@@ -170,6 +176,43 @@ async function handleContact(request, env) {
   } catch (err) {
     return contactError('Unable to send your message right now. Please try again shortly.', 502, err);
   }
+}
+
+// Verifies a Turnstile token server-side via Cloudflare's siteverify endpoint.
+// Never trust the browser's word alone — the token only proves anything once
+// siteverify confirms success, the expected action, and an approved hostname.
+async function verifyTurnstile(token, env, request) {
+  const expectedHostnames = new Set(
+    (env.TURNSTILE_HOSTNAMES ?? '')
+      .split(',')
+      .map((hostname) => hostname.trim())
+      .filter(Boolean),
+  );
+
+  if (typeof token !== 'string' || token.length === 0 || token.length > 2048) return false;
+  if (!env.TURNSTILE_SECRET || expectedHostnames.size === 0) return false;
+
+  let result;
+  try {
+    const res = await fetch(TURNSTILE_VERIFY_URL, {
+      method: 'POST',
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      signal: AbortSignal.timeout(10_000),
+      body: new URLSearchParams({
+        secret: env.TURNSTILE_SECRET,
+        response: token,
+        remoteip: request.headers.get('cf-connecting-ip') ?? '',
+      }),
+    });
+    if (!res.ok) throw new Error(`siteverify ${res.status}`);
+    result = await res.json();
+  } catch {
+    return false; // Network error, non-2xx, or non-JSON body — fail closed.
+  }
+
+  return Boolean(
+    result.success && result.action === TURNSTILE_ACTION && expectedHostnames.has(result.hostname),
+  );
 }
 
 function validateContactFields(body) {
