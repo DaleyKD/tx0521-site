@@ -206,6 +206,27 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--red); outline-o
 .site-footer p { margin: 0; font-size: .78rem; }
 .site-footer a { color: var(--tan); }
 
+/* ---- Calendar (FullCalendar, themed to the brand palette) ---- */
+#troop-calendar {
+  --fc-border-color: #e5e0d8;
+  --fc-page-bg-color: #fff;
+  --fc-neutral-bg-color: var(--cream);
+  --fc-today-bg-color: #faf1d8;
+  --fc-button-bg-color: var(--red);
+  --fc-button-border-color: var(--red);
+  --fc-button-hover-bg-color: #8f1e24;
+  --fc-button-hover-border-color: #8f1e24;
+  --fc-button-active-bg-color: #8f1e24;
+  --fc-button-active-border-color: #8f1e24;
+  font-family: var(--font-body);
+}
+#troop-calendar .fc-toolbar-title { font-family: var(--font-body); font-weight: 800; color: var(--brown-dark); font-size: 1.4rem; }
+#troop-calendar .fc-daygrid-day-number, #troop-calendar .fc-list-day-text, #troop-calendar .fc-list-day-side-text { color: var(--ink); text-decoration: none; }
+#troop-calendar .fc-event { cursor: pointer; }
+#troop-calendar .fc-daygrid-event { background: var(--navy); border-color: var(--navy); }
+#troop-calendar .fc-list-event:hover td { background: var(--cream); }
+.calendar-error { text-align: center; color: var(--brown-dark); padding: 2rem 0; }
+
 @media (max-width: 900px) {
   .header-inner { min-height: 78px; }
   .brand img:not(.brand-mobile) { width: 195px; }

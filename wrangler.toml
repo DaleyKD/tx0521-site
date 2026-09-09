@@ -1,0 +1,11 @@
+name = "tx0521"
+main = "./worker/index.js"
+compatibility_date = "2026-09-09"
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+
+[[kv_namespaces]]
+binding = "CALENDAR_KV"
+id = "e733ec4365334516b4a2564905376024"

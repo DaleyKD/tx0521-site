@@ -26,7 +26,7 @@ export const navigation: NavItem[] = [
       { label: 'Join Our Troop', href: '/about/join/' },
     ],
   },
-  { label: 'Calendar', href: 'https://www.tx0521.org/calendar/' },
+  { label: 'Calendar', href: '/calendar/' },
   { label: 'Shop', href: 'https://shop.traillifeusa.com', newTab: true },
   {
     label: 'Links',

@@ -1,0 +1,54 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Section from '../../components/Section.astro';
+
+const ICAL_FEED_URL = 'https://www.traillifeconnect.com/icalendar/tkbapf3m5536/na/public';
+---
+<PageLayout
+  title="Calendar"
+  description="Upcoming meetings, campouts, and events for Trail Life Troop TX-0521."
+  heading="Calendar"
+  heroImage="/images/hero-mountains.png"
+  heroAlt="Mountain trail scenery"
+>
+  <Section tone="cream" class="narrow-content">
+    <p>Below are our troop's upcoming meetings, campouts, and events, synced from TrailLifeConnect. Click any event for details.</p>
+  </Section>
+
+  <Section tone="light">
+    <div id="troop-calendar" data-events-url="/api/calendar"></div>
+    <p id="calendar-error" class="calendar-error" hidden>
+      We couldn't load the calendar right now. You can still
+      <a href={ICAL_FEED_URL} target="_blank" rel="noreferrer">view or subscribe to it directly</a>.
+    </p>
+  </Section>
+</PageLayout>
+
+<script>
+  import { Calendar } from '@fullcalendar/core';
+  import dayGridPlugin from '@fullcalendar/daygrid';
+  import listPlugin from '@fullcalendar/list';
+  import interactionPlugin from '@fullcalendar/interaction';
+
+  const el = document.getElementById('troop-calendar');
+  const errorEl = document.getElementById('calendar-error');
+  if (el) {
+    const calendar = new Calendar(el, {
+      plugins: [dayGridPlugin, listPlugin, interactionPlugin],
+      initialView: window.innerWidth < 700 ? 'listMonth' : 'dayGridMonth',
+      headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,listMonth' },
+      height: 'auto',
+      events: el.dataset.eventsUrl,
+      eventSourceFailure() {
+        el.hidden = true;
+        if (errorEl) errorEl.hidden = false;
+      },
+      eventDidMount(info) {
+        if (info.event.extendedProps.location) {
+          info.el.title = `${info.event.title} (${info.event.extendedProps.location})`;
+        }
+      },
+    });
+    calendar.render();
+  }
+</script>
