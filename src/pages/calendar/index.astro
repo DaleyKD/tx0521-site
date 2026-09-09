@@ -22,10 +22,14 @@ const ICAL_FEED_URL = 'https://www.traillifeconnect.com/icalendar/tkbapf3m5536/n
 </PageLayout>
 
 <script>
-  import { Calendar } from '@fullcalendar/core';
-  import dayGridPlugin from '@fullcalendar/daygrid';
-  import listPlugin from '@fullcalendar/list';
-  import interactionPlugin from '@fullcalendar/interaction';
+  import { Calendar } from 'fullcalendar';
+  import dayGridPlugin from 'fullcalendar/daygrid';
+  import listPlugin from 'fullcalendar/list';
+  import interactionPlugin from 'fullcalendar/interaction';
+  import classicThemePlugin from 'fullcalendar/themes/classic';
+  import 'fullcalendar/skeleton.css';
+  import 'fullcalendar/themes/classic/theme.css';
+  import 'fullcalendar/themes/classic/palette.css';
 
   const el = document.getElementById('troop-calendar');
   const errorEl = document.getElementById('calendar-error');
@@ -34,10 +38,10 @@ const ICAL_FEED_URL = 'https://www.traillifeconnect.com/icalendar/tkbapf3m5536/n
     const popover = createPopover();
 
     const calendar = new Calendar(el, {
-      plugins: [dayGridPlugin, listPlugin, interactionPlugin],
+      plugins: [dayGridPlugin, listPlugin, interactionPlugin, classicThemePlugin],
       initialView: window.innerWidth < 700 ? 'listMonth' : 'dayGridMonth',
       headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,listMonth' },
-      buttonText: { today: 'Today', month: 'Month', list: 'List' },
+      toolbarTitleClass: 'calendar-title',
       height: 'auto',
       events: el.dataset.eventsUrl,
       eventSourceFailure() {
@@ -72,19 +76,19 @@ const ICAL_FEED_URL = 'https://www.traillifeconnect.com/icalendar/tkbapf3m5536/n
     popEl.setAttribute('role', 'tooltip');
     document.body.appendChild(popEl);
 
-    let pinnedEvent: import('@fullcalendar/core').EventApi | null = null;
+    let pinnedEvent: import('fullcalendar').EventApi | null = null;
 
     const timeFormatter = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit' });
     const dateFormatter = new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 
-    function describe(event: import('@fullcalendar/core').EventApi) {
+    function describe(event: import('fullcalendar').EventApi) {
       if (event.allDay) return dateFormatter.format(event.start ?? undefined);
       const start = event.start ? timeFormatter.format(event.start) : '';
       const end = event.end ? timeFormatter.format(event.end) : '';
       return end ? `${start} – ${end}` : start;
     }
 
-    function render(event: import('@fullcalendar/core').EventApi) {
+    function render(event: import('fullcalendar').EventApi) {
       const location = event.extendedProps.location as string | undefined;
       const description = event.extendedProps.description as string | undefined;
       popEl.innerHTML = '';
@@ -131,7 +135,7 @@ const ICAL_FEED_URL = 'https://www.traillifeconnect.com/icalendar/tkbapf3m5536/n
 
     return {
       el: popEl,
-      show(event: import('@fullcalendar/core').EventApi, targetEl: HTMLElement) {
+      show(event: import('fullcalendar').EventApi, targetEl: HTMLElement) {
         if (pinnedEvent) return;
         render(event);
         popEl.classList.add('is-visible');
@@ -141,7 +145,7 @@ const ICAL_FEED_URL = 'https://www.traillifeconnect.com/icalendar/tkbapf3m5536/n
         pinnedEvent = null;
         popEl.classList.remove('is-visible');
       },
-      toggle(event: import('@fullcalendar/core').EventApi, targetEl: HTMLElement) {
+      toggle(event: import('fullcalendar').EventApi, targetEl: HTMLElement) {
         if (pinnedEvent === event) {
           this.hide();
           return;
