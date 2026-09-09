@@ -115,6 +115,9 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--red); outline-o
 .tl-section.tone-dark h2, .tl-section.tone-dark h3 { color: #fff; }
 .tl-section-inner { width: min(var(--max), 90vw); margin: 0 auto; padding: var(--section-pad) 0; }
 .tl-section.narrow .tl-section-inner { max-width: 700px; text-align: center; }
+/* Cuts just the top padding, e.g. right under a page-hero where the full
+   --section-pad reads as a big gap before the content actually starts. */
+.tl-section.tight-top .tl-section-inner { padding-top: 2rem; }
 
 /* Reusable heading/copy alignment helpers, so pages don't reach for inline styles. */
 .centered-heading .tl-section-inner > h2 { text-align: center; margin-bottom: 2.5rem; }
@@ -207,7 +210,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--red); outline-o
 .site-footer a { color: var(--tan); }
 
 /* ---- Calendar (FullCalendar, themed to the brand palette) ---- */
-.calendar-intro { margin-bottom: 1.5rem; color: var(--ink); }
+.calendar-intro { margin: 1.25rem 0 0; color: #77787b; /* True Black, 65% */ font-size: .85rem; text-align: center; }
 #troop-calendar {
   --fc-border-color: #e5e0d8;
   --fc-page-bg-color: #fff;

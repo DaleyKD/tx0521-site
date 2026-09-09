@@ -11,9 +11,9 @@ const ICAL_FEED_URL = 'https://www.traillifeconnect.com/icalendar/tkbapf3m5536/n
   heroImage="/images/calendar-hero.jpg"
   heroAlt="Troop TX-0521 calendar"
 >
-  <Section tone="light">
-    <p class="calendar-intro">Synced from TrailLifeConnect. Hover or tap any event for details.</p>
+  <Section tone="light" class="tight-top">
     <div id="troop-calendar" data-events-url="/api/calendar"></div>
+    <p class="calendar-intro">Synced from TrailLifeConnect. Hover or tap any event for details.</p>
     <p id="calendar-error" class="calendar-error" hidden>
       We couldn't load the calendar right now. You can still
       <a href={ICAL_FEED_URL} target="_blank" rel="noreferrer">view or subscribe to it directly</a>.
