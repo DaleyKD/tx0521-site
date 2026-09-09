@@ -211,32 +211,33 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--red); outline-o
 
 /* ---- Calendar (FullCalendar, themed to the brand palette) ---- */
 .calendar-intro { margin: 1.25rem 0 0; color: #77787b; /* True Black, 65% */ font-size: .85rem; text-align: center; }
+/* v7's "classic" theme renamed every custom property from --fc-* to
+   --fc-classic-* and consolidated button/event coloring down to a handful of
+   semantic variables (base + "strong" hover/active variant) instead of
+   separate bg/border/hover/active properties per state. See
+   node_modules/fullcalendar/themes/classic/palette.css for the full set. */
 #troop-calendar {
-  --fc-border-color: #e5e0d8;
-  --fc-page-bg-color: #fff;
-  --fc-neutral-bg-color: var(--cream);
-  --fc-today-bg-color: #faf1d8;
-  --fc-button-bg-color: var(--red);
-  --fc-button-border-color: var(--red);
-  --fc-button-hover-bg-color: #8f1e24;
-  --fc-button-hover-border-color: #8f1e24;
-  --fc-button-active-bg-color: #8f1e24;
-  --fc-button-active-border-color: #8f1e24;
-  /* These three theme every event uniformly — both the solid "block" bars used
-     for all-day/multi-day events AND the dot used for normal timed events in
-     month view (FullCalendar derives the dot's color from these too), unlike
-     targeting .fc-daygrid-event directly, which only covers block-style
-     rendering and left timed events as a bare dot with no visible text. */
-  --fc-event-bg-color: var(--navy);
-  --fc-event-border-color: var(--navy);
-  --fc-event-text-color: #fff;
+  --fc-classic-background: #fff;
+  --fc-classic-border: #e5e0d8;
+  --fc-classic-strong-border: #d8ccb7;
+  --fc-classic-foreground: var(--ink);
+  --fc-classic-today: #faf1d8;
+  --fc-classic-button: var(--red);
+  --fc-classic-button-border: var(--red);
+  --fc-classic-button-strong: #8f1e24;
+  --fc-classic-button-strong-border: #8f1e24;
+  --fc-classic-button-foreground: #fff;
+  /* Themes every event uniformly — both the solid "block" bars used for
+     all-day/multi-day events AND the dot used for normal timed events in
+     month view derive their color from this single pair. */
+  --fc-classic-event: var(--navy);
+  --fc-classic-event-contrast: #fff;
   font-family: var(--font-body);
 }
-#troop-calendar .fc-toolbar-title { font-family: var(--font-body); font-weight: 800; color: var(--brown-dark); font-size: 1.4rem; }
-#troop-calendar .fc-button { text-transform: none; }
-#troop-calendar .fc-daygrid-day-number, #troop-calendar .fc-list-day-text, #troop-calendar .fc-list-day-side-text { color: var(--ink); text-decoration: none; }
-#troop-calendar .fc-daygrid-dot-event .fc-event-title, #troop-calendar .fc-daygrid-dot-event .fc-event-time { color: var(--ink); }
-#troop-calendar .fc-event { cursor: pointer; }
+/* v7's internal class names are randomly hashed per build (e.g. "fc-classic-AVD"),
+   not stable selectors we can target — the theme exposes `*Class` calendar
+   options instead (see toolbarTitleClass in the component) for exactly this. */
+.calendar-title { font-family: var(--font-body); font-weight: 800; color: var(--brown-dark); font-size: 1.4rem; }
 #troop-calendar .fc-list-event:hover td { background: var(--cream); }
 .calendar-error { text-align: center; color: var(--brown-dark); padding: 2rem 0; }
 
