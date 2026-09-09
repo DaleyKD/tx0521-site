@@ -22,6 +22,13 @@ id = "e733ec4365334516b4a2564905376024"
 [[send_email]]
 name = "CONTACT_EMAIL"
 
+# Hostnames the contact form's Turnstile token is allowed to have been solved
+# on, checked against siteverify's own "hostname" field server-side. Not
+# secret — the widget's sitekey and allowed domains are public by design.
+# Local dev adds localhost/127.0.0.1 via .dev.vars instead of here.
+[vars]
+TURNSTILE_HOSTNAMES = "tx0521.org,www.tx0521.org,tx0521.kyle-a96.workers.dev"
+
 [observability.logs]
 enabled = true
 head_sampling_rate = 1

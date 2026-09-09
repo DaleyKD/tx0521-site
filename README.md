@@ -71,7 +71,7 @@ wrangler secret put CONTACT_TO_ADDRESS
 
 ## Contact form architecture
 
-`/contact/` posts JSON to `/api/contact`. The Worker validates the fields server-side, then sends the message as a real email using Cloudflare's own Email Routing (the `CONTACT_EMAIL` send_email binding) rather than a third-party email API — `tx0521.org`'s DNS already lives on Cloudflare with Email Routing configured, so the Worker just sends to the troop's existing `info@tx0521.org` routing rule and Cloudflare forwards it from there.
+`/contact/` posts JSON to `/api/contact`. The Worker validates the fields server-side, then sends the message as a real email using Cloudflare's own Email Routing (the `CONTACT_EMAIL` send_email binding) rather than a third-party email API — `tx0521.org`'s DNS already lives on Cloudflare with Email Routing configured, and `info@tx0521.org` is a verified destination address there, so the Worker sends straight to it.
 
 The recipient address is a Wrangler secret (`CONTACT_TO_ADDRESS`), not a `wrangler.toml` var, on purpose — vars are committed to the repo, secrets aren't. Even though `info@tx0521.org` is already public on the site, keeping it out of source control means the destination can change without a code change or exposing it in git history.
 
@@ -79,4 +79,4 @@ Spam mitigation is layered:
 
 1. A hidden honeypot field (`website`) — a real visitor never sees or fills it; a submission with it filled in gets a fake success response with no email sent.
 2. Server-side field validation (required fields, ZIP format, phone digit count, email shape) — the same checks the client-side masking/`required` attributes enforce, re-checked server-side since the client can't be trusted.
-3. [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/) — bot verification widget + server-side siteverify, gating the handler above. (Landing in a follow-up PR.)
+3. [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/) — an invisible bot-verification widget (`data-appearance="interaction-only"`, so it only ever shows a challenge if Cloudflare's risk engine decides one is actually needed) gates the handler with a server-side `siteverify` call, checked before the honeypot/validation logic runs. The widget's sitekey is a public constant in `contact/index.astro`; the `TURNSTILE_SECRET` is a Wrangler secret, and the set of hostnames a token is allowed to have been solved on (`TURNSTILE_HOSTNAMES`) is a committed `wrangler.toml` var — none of that is sensitive.
