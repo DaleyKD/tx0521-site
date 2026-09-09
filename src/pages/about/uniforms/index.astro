@@ -1,0 +1,127 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import Section from '../../../components/Section.astro';
+import Card from '../../../components/Card.astro';
+import HotspotImage from '../../../components/HotspotImage.astro';
+
+const hotspots = [
+  { title: 'Belt', left: 45.19, top: 41.8, placement: 'bottom' as const, content: 'A belt is not required.' },
+  {
+    title: 'Troop Patch',
+    left: 27.34,
+    top: 17.8,
+    placement: 'right' as const,
+    content: 'Sew the <strong>Troop Numeral and State Patch</strong> on the right shirt sleeve [1/4 in. below the shoulder seam].',
+  },
+  {
+    title: 'Tri-Color Hat',
+    left: 60.03,
+    top: 1.4,
+    placement: 'top' as const,
+    content: 'Wear your <strong>tri-color Trail Life USA hat</strong>, forward-facing, on the top of your head. (<em>Not Pictured</em>)',
+  },
+  {
+    title: 'Shoulder Loops',
+    left: 75.41,
+    top: 16.69,
+    placement: 'left' as const,
+    content: 'Slide the appropriate <strong>Shoulder Loops</strong> for your program / leadership position on to the shirt epaulette bars.',
+  },
+  {
+    title: 'Lanyard',
+    left: 54.53,
+    top: 20.37,
+    placement: 'bottom' as const,
+    content: 'Wear a <strong>Trail Life lanyard with ID</strong> around your neck. (<em>Not Pictured</em>)',
+  },
+  { title: 'Shoes', left: 64.97, top: 94.59, placement: 'top' as const, content: 'Closed-toed shoes.' },
+  {
+    title: 'Worthy Life Award',
+    left: 77.34,
+    top: 28.07,
+    placement: 'left' as const,
+    content: 'Pin the <strong>Worthy Life Award</strong> to the left pocket flap.',
+  },
+  {
+    title: 'Timberline Award',
+    left: 81.46,
+    top: 25.17,
+    placement: 'left' as const,
+    content: 'Sew the <strong>Mountain Lion Timberline Patch</strong> centered above the left pocket.',
+  },
+  {
+    title: 'Ridgeline Award',
+    left: 78.71,
+    top: 22.04,
+    placement: 'left' as const,
+    content: 'Sew the <strong>Navigators Ridgeline Patch</strong> centered above the left pocket or Timberline Patch. (<em>Not Pictured</em>)',
+  },
+  {
+    title: 'Current Level/Rank',
+    left: 28.43,
+    top: 29.63,
+    placement: 'right' as const,
+    content:
+      'Hang these patches from the right pocket flap button:<ul><li><strong>Woodlands Trail Current Level</strong> (Branch Patch or Forest Award)</li><li><strong>Navigators/Adventurers Rank</strong></li></ul>',
+  },
+  {
+    title: 'Other Patch',
+    left: 76.79,
+    top: 33.31,
+    placement: 'left' as const,
+    content:
+      'Hang these patches from the left pocket flap button:<ul><li><strong>Previous Woodlands Trail Branch Patches</strong></li><li><strong>Navigators/Adventurers Discipleship Program Participation Patches</strong> (<em>e.g. Manhood Journey or Band of Brothers</em>)</li></ul>',
+  },
+  {
+    title: 'Pants',
+    left: 41.07,
+    top: 59.65,
+    placement: 'right' as const,
+    content:
+      'Wear one of the following acceptable bottoms:<ul><li>Jeans or Jean Shorts</li><li>Dark-Colored Pants/Shorts</li><li>Khakis or Khaki Shorts</li><li>Cargo Pants or Cargo Shorts</li><li>Trail Life USA Approved Pants or Shorts</li></ul>Unacceptable bottoms include:<ul><li>Clothing with rips, tears, or not intact</li><li>Athletic Pants</li><li>Gym Shorts</li></ul>',
+  },
+];
+---
+<PageLayout
+  title="Uniforms"
+  description="Class A, B, and C uniform requirements for Trail Life Troop TX-0521."
+  heading="Uniforms"
+  heroImage="/images/uniforms-hero.jpg"
+  heroAlt="River surrounded by forests under a cloudy sky"
+>
+  <Section tone="light" class="narrow-content">
+    <p class="scripture">
+      "The uniform makes for brotherhood, since when universally adopted it covers up all differences of class and country."
+      <cite>Lord Robert Baden-Powell</cite>
+    </p>
+  </Section>
+
+  <Section tone="cream" class="uniform-classes">
+    <HotspotImage src="/images/oathboy-uniform.png" alt="Trailman in the Class A uniform" width={364} height={896} hotspots={hotspots} />
+    <div>
+      <h2>Class A Uniform</h2>
+      <h3>Formal &ndash; <em>Required</em></h3>
+      <p>This formal uniform is required for all troop meetings, ceremonies, parades, and dress occasions. It consists of a class A uniform shirt, shoulder loops, troop numeral/state patch, lanyard with ID, and tri-color Trail Life hat.</p>
+      <p>Trailmen <strong>should</strong> wear appropriate pants or shorts that are khaki or dark in color (black/navy or jeans). Styles may include cargo, jeans, or similar. We kindly ask that you do <strong><u>not</u></strong> wear athletic pants or shorts, including gym shorts.</p>
+      <p>Trailmen <strong>should not</strong> wear torn or otherwise defaced or altered uniforms and should be neat in appearance.</p>
+      <p>Closed-toed shoes are required.</p>
+      <p><a href="https://shop.traillifeusa.com/product/troop-uniform-build-your-own-bundle" target="_blank" rel="noreferrer">Troop Uniform Bundle</a> &nbsp;·&nbsp; <a href="https://shop.traillifeusa.com/product/tri-color-hat" target="_blank" rel="noreferrer">Tri-Color Hat</a></p>
+    </div>
+  </Section>
+
+  <Section tone="light" class="centered-heading">
+    <h2>Class B &amp; Class C</h2>
+    <div class="card-grid card-grid-2">
+      <Card variant="surface">
+        <h3>Class B Uniform</h3>
+        <p class="uniform-tag">Travel &ndash; Optional</p>
+        <p>This travel uniform is a Trail Life USA official polo, purchased from the Trail Life store. If a Trailman decides to wear this uniform, it must match his current program (Woodlands Trail, Navigators, or Adventurers).</p>
+      </Card>
+      <Card variant="surface">
+        <h3>Class C Uniform</h3>
+        <p class="uniform-tag">Trail &ndash; Coming Soon</p>
+        <p>This trail uniform is ideal for outdoor adventures where it isn't as practical to wear the formal or travel uniforms. Any Trail Life USA official t-shirts are acceptable. Troop TX-0521 is in the process of getting t-shirts specifically for our troop.</p>
+      </Card>
+    </div>
+  </Section>
+</PageLayout>

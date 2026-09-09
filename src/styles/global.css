@@ -39,7 +39,8 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.75; background: #fff; }
+body { margin: 0; color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.75; background: #fff; display: flex; flex-direction: column; min-height: 100vh; }
+main { flex: 1 0 auto; }
 h1, h2, h3 { font-family: var(--font-body); font-weight: 800; line-height: 1.15; margin: 0 0 .65rem; letter-spacing: .01em; color: var(--brown-dark); }
 h1 { font-size: clamp(2.6rem, 5vw, 5rem); }
 h2 { font-size: clamp(1.9rem, 3.2vw, 3rem); }
@@ -75,6 +76,10 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--red); outline-o
   .submenu .submenu-button svg { transform: rotate(-90deg); }
   .submenu .has-menu:hover > .submenu-button svg, .submenu .has-menu.expanded > .submenu-button svg { transform: rotate(-90deg); }
 }
+.header-nav-group { display: flex; align-items: center; gap: 1.75rem; }
+.header-social { display: flex; align-items: center; gap: 1.1rem; }
+.header-social a { color: var(--brown); display: flex; align-items: center; gap: .4rem; font-size: .82rem; text-decoration: none; }
+.header-social a:hover { color: var(--red); }
 .menu-button { display: none; background: transparent; border: 0; cursor: pointer; padding: .4rem; }
 .menu-button span:not(.sr-only) { display: block; width: 25px; height: 2px; background: var(--red); margin: 5px; }
 
@@ -122,6 +127,29 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--red); outline-o
 /* Reusable heading/copy alignment helpers, so pages don't reach for inline styles. */
 .centered-heading .tl-section-inner > h2 { text-align: center; margin-bottom: 2.5rem; }
 .narrow-content .tl-section-inner { max-width: 700px; }
+.not-found p { text-align: center; }
+.not-found-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+#scroll-to-top {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 40;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: var(--red);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .3);
+  cursor: pointer;
+  transition: background-color .15s ease, opacity .15s ease;
+}
+#scroll-to-top:hover { background: #8f1e24; }
+#scroll-to-top[hidden] { display: none; }
 /* Same width constraint, usable directly on an element inside a full-width section. */
 .prose { max-width: 700px; margin: 0 auto 2.5rem; }
 
@@ -159,6 +187,9 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--red); outline-o
 .advancement-trail { display: block; width: 100%; max-width: 720px; height: auto; margin: 0 auto 2.5rem; }
 .card-surface { background: #fff; border-radius: 4px; padding: 2rem 2.25rem; box-shadow: 0 8px 22px #0000000d; }
 .card h3:first-child, .card h2:first-child { margin-top: 0; }
+.text-accent { color: var(--accent); }
+.patrol-copy p:first-child { margin-top: 0; }
+.patrol-copy p:last-child { margin-bottom: 0; }
 
 /* ---- Reusable card grids: N-up on desktop, 2-up on tablet, 1-up on mobile ---- */
 .card-grid { display: grid; gap: 2rem; }
@@ -184,6 +215,11 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--red); outline-o
 .page-hero-badge { display: block; margin: 1rem auto 0; height: 90px; width: 90px; object-fit: contain; background: #fff; border-radius: 50%; padding: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.35); }
 
 .history .tl-section-inner { display: grid; grid-template-columns: 31% 1fr; gap: 9%; }
+
+.uniform-classes .tl-section-inner { display: grid; grid-template-columns: 38% 1fr; gap: 9%; align-items: start; }
+.uniform-classes h2 { margin-top: 0; }
+.uniform-classes h3 { color: var(--red); }
+.uniform-tag { font-family: var(--font-serif); font-style: italic; letter-spacing: .04em; text-transform: uppercase; color: var(--brown); margin: -0.5rem 0 .75rem; font-size: .9rem; }
 
 .leaders-section .tl-section-inner > h2 { text-align: center; margin-bottom: 2.5rem; }
 .leaders { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem 2.5rem; }
@@ -295,6 +331,72 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--red); outline-o
 #contact-form .button { align-self: flex-start; border-radius: 2px; cursor: pointer; }
 #contact-form .button:disabled { opacity: .6; cursor: not-allowed; }
 
+/* ---- Uniform hotspot image ---- */
+.hotspot-image { position: relative; display: block; width: 100%; max-width: 360px; margin: 0 auto; }
+.hotspot-image img { display: block; width: 100%; height: auto; }
+.hotspot-dot {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* No centering transform, to match the coordinates as authored on the
+     original site: there, each point's top-left corner (not its center)
+     sits at the stored %, so centering here would shift every dot up-left. */
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: var(--navy);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .35);
+  cursor: pointer;
+}
+.hotspot-icon { position: relative; z-index: 1; width: 14px; height: 14px; }
+.hotspot-dot:hover, .hotspot-dot:focus-visible, .hotspot-dot[aria-expanded='true'] { z-index: 5; }
+.hotspot-pulse {
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: var(--navy);
+  opacity: 0;
+  animation: hotspotPulse 2.2s cubic-bezier(.4, 0, .6, 1) infinite;
+}
+@keyframes hotspotPulse {
+  0% { transform: scale(1); opacity: .45; }
+  60% { opacity: 0; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
+.hotspot-popover {
+  position: absolute;
+  width: 220px;
+  max-width: 62vw;
+  padding: .75rem .9rem;
+  background: #fff;
+  color: var(--ink);
+  text-align: left;
+  border-radius: 8px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .22);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .15s ease;
+  z-index: 2;
+}
+.hotspot-popover-title { margin: 0 0 .35rem; font-weight: 700; font-size: .9rem; color: var(--navy); }
+.hotspot-popover-content { font-size: .82rem; line-height: 1.45; }
+.hotspot-popover-content p { margin: 0; }
+.hotspot-popover-content ul { margin: .35rem 0 0; padding-left: 1.1rem; }
+.hotspot-popover-content li { margin-bottom: .2rem; }
+.hotspot-dot[data-placement='top'] .hotspot-popover { bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%); }
+.hotspot-dot[data-placement='bottom'] .hotspot-popover { top: calc(100% + 12px); left: 50%; transform: translateX(-50%); }
+.hotspot-dot[data-placement='left'] .hotspot-popover { right: calc(100% + 12px); top: 50%; transform: translateY(-50%); }
+.hotspot-dot[data-placement='right'] .hotspot-popover { left: calc(100% + 12px); top: 50%; transform: translateY(-50%); }
+@media (hover: hover) {
+  .hotspot-dot:hover .hotspot-popover,
+  .hotspot-dot:focus-visible .hotspot-popover { opacity: 1; }
+}
+.hotspot-dot[aria-expanded='true'] .hotspot-popover { opacity: 1; }
+
 @media (max-width: 900px) {
   .header-inner { min-height: 78px; }
   .brand img:not(.brand-mobile) { width: 195px; }
@@ -302,7 +404,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--red); outline-o
   .primary-nav a, .primary-nav span { font-size: .82rem; }
   .pillars { grid-template-columns: 1fr; }
   .pillar { min-height: 220px; }
-  .history .tl-section-inner, .dues, .oath-section .tl-section-inner { grid-template-columns: 1fr; gap: 2.25rem; }
+  .history .tl-section-inner, .dues, .oath-section .tl-section-inner, .uniform-classes .tl-section-inner { grid-template-columns: 1fr; gap: 2.25rem; }
   .card-grid-3, .card-grid-4 { grid-template-columns: repeat(2, 1fr); }
   .leaders { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
   .leader .leader-photo { width: 140px; height: 140px; }
@@ -315,6 +417,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--red); outline-o
   .brand img:not(.brand-mobile) { display: none; }
   .brand-mobile { display: block !important; width: 52px !important; }
   .menu-button { display: block; }
+  .header-social a:not(:first-child) { display: none; }
   .primary-nav { display: none; position: absolute; left: 0; right: 0; top: 72px; background: #fff; border-top: 1px solid #ddd; padding: 1rem 6vw 1.5rem; box-shadow: 0 12px 16px #0002; }
   .primary-nav.open { display: block; }
   .primary-nav > ul { display: block; }

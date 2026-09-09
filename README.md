@@ -11,21 +11,27 @@ The public website for Trail Life Troop TX-0521 (Van Alstyne, TX), a ministry of
 - **[ical.js](https://github.com/kewisch/ical.js)** — parses the troop's iCal feed server-side inside the Worker (the feed's CORS policy blocks fetching it directly from the browser).
 - **Cloudflare KV** — a fallback cache for calendar data, used only if the edge cache misses *and* the live upstream fetch fails.
 - **Cloudflare Email Routing** (the `send_email` binding) + **[mimetext](https://github.com/muratgozel/MIMEText)** — sends Contact form submissions as real email, no third-party email provider involved.
+- **[@astrojs/sitemap](https://docs.astro.build/en/guides/integrations-guide/sitemap/)** — generates `sitemap-index.xml` at build time; `public/robots.txt` points at it.
+- No trailing slashes: `trailingSlash: 'never'` in `astro.config.mjs`, paired with `html_handling = "drop-trailing-slash"` in `wrangler.toml` so Cloudflare's own asset serving redirects `/about/` → `/about` rather than the other way around.
 
 ## Project structure
 
 ```text
 src/
-  components/   Header, Navigation (recursive, multi-level), Section, Card, LeadershipCard, JoinCta
+  components/   Header, Navigation (recursive, multi-level), Section, Card, LeadershipCard, JoinCta,
+                 HotspotImage (interactive image hotspots), ScrollToTop
   data/          navigation.ts — the site's nav tree
   layouts/       BaseLayout, PageLayout (page-hero + optional per-program theme)
-  pages/         index, about/, about/{join,woodlands-trail,navigators,adventurers}/, calendar/, contact/
+  pages/         index, about/, about/{join,woodlands-trail,navigators,adventurers,uniforms}/,
+                 calendar/, contact/, 404
   styles/        global.css — brand palette, layout, per-program themes
 worker/
   index.js       The site's dynamic routes: GET /api/calendar, POST /api/contact
 public/
   images/        Local copies of site imagery (no hotlinking to the old WordPress host)
-wrangler.toml    Worker config: static assets binding, KV binding, send_email binding, observability
+  robots.txt     Points crawlers at the generated sitemap
+wrangler.toml    Worker config: static assets binding (404 page, drop-trailing-slash), KV binding,
+                 send_email binding, observability
 ```
 
 ## Commands

@@ -1,0 +1,16 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import Section from '../components/Section.astro';
+---
+<PageLayout
+  title="Page Not Found"
+  description="The page you're looking for doesn't exist."
+  heading="Page Not Found"
+  heroImage="/images/hero-mountains.png"
+  heroAlt="Mountain landscape"
+>
+  <Section tone="light" class="narrow-content centered-heading not-found">
+    <p>Sorry, we couldn't find that page. It may have moved, or the link might be out of date.</p>
+    <p class="not-found-actions"><a class="button" href="/">Back to Home</a> <a class="button button-light" href="/contact">Contact Us</a></p>
+  </Section>
+</PageLayout>

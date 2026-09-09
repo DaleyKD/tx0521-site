@@ -58,8 +58,10 @@ export default {
     }
 
     // Anything else reaching the Worker didn't match a static file or a known
-    // route — a genuine 404, not a fallback to try rendering.
-    return new Response('Not found', { status: 404 });
+    // route — a genuine 404. Defer to the assets binding so the custom
+    // dist/404.html (wrangler.toml's not_found_handling = "404-page") is what
+    // actually gets served, instead of a bare text response.
+    return env.ASSETS.fetch(request);
   },
 };
 

@@ -5,9 +5,37 @@ import Card from '../../../components/Card.astro';
 import JoinCta from '../../../components/JoinCta.astro';
 
 const patrols = [
-  { name: 'Fox Patrol', age: 'Ages 5–6', image: '/images/programs/wt-fox-patrol.svg', award: '/images/programs/wt-fox-forest-award.svg', text: "The youngest of the troop, Foxes are full of energy and joy. Everything is still so new and wondrous. These first two years help a Fox get to know Trail Life, their fellow Trailmen and leaders, have fun, and learn some skills. Foxes look up to older patrols and programs, and want to follow their lead. Foxes are only permitted to attend overnight campouts with a parent or guardian." },
-  { name: 'Hawk Patrol', age: 'Ages 7–8', image: '/images/programs/wt-hawk-patrol.svg', award: '/images/programs/wt-hawk-forest-award.svg', text: 'Hawks are starting to get their feet under them. They are learning social skills, developing better self-control, and have a better attention span. They want to solve bigger, more complex problems. With a desire to contribute, Hawks can help guide Foxes and teach new Trailmen some of the joining requirements, like the oath. Hawks are only permitted to attend overnight campouts with a parent or guardian.' },
-  { name: 'Mountain Lion Patrol', age: 'Ages 9–10', image: '/images/programs/wt-mountain-lion-patrol.svg', award: '/images/programs/wt-mountain-lion-forest-award.svg', text: "Within the Woodlands Trail, the Mountain Lions are the oldest and are looked up to by the Foxes and Hawks. They have more responsibilities and are expected to be good examples for the younger members. With these added responsibilities, Mountain Lions can earn Fireguard and Woodsman cards, which grant them the privilege of tending fires and using their pocket knives during overnight campouts. A parent or guardian must accompany a Mountain Lion on overnight campouts, though Mountain Lions are permitted to be in their own tent." },
+  {
+    name: 'Fox Patrol',
+    age: 'Ages 5–6',
+    image: '/images/programs/wt-fox-patrol.svg',
+    award: '/images/programs/wt-fox-forest-award.svg',
+    html:
+      '<p>The youngest of the troop, Foxes are full of energy and joy. Everything is still so new and wondrous.</p>' +
+      '<p>These first two years help a Fox get to know Trail Life, their fellow Trailmen and leaders, have fun, and learn some skills. Foxes look up to older patrols and programs, and want to follow their lead.</p>' +
+      '<p>Foxes are only permitted to attend overnight campouts with a parent or guardian.</p>',
+  },
+  {
+    name: 'Hawk Patrol',
+    age: 'Ages 7–8',
+    image: '/images/programs/wt-hawk-patrol.svg',
+    award: '/images/programs/wt-hawk-forest-award.svg',
+    html:
+      '<p>Hawks are starting to get their feet under them. They are learning social skills, developing better self-control, and have a better attention span. They want to solve bigger, more complex problems.</p>' +
+      '<p class="text-accent">With a desire to contribute, Hawks can help guide Foxes and teach new Trailmen some of the joining requirements, like the oath.</p>' +
+      '<p class="text-accent">Hawks are only permitted to attend overnight campouts with a parent or guardian.</p>',
+  },
+  {
+    name: 'Mountain Lion Patrol',
+    age: 'Ages 9–10',
+    image: '/images/programs/wt-mountain-lion-patrol.svg',
+    award: '/images/programs/wt-mountain-lion-forest-award.svg',
+    html:
+      '<p>Within the Woodlands Trail, the Mountain Lions are the oldest and are looked up to by the Foxes and Hawks. They have more responsibilities and are expected to be good examples for the younger members.</p>' +
+      "<p>As they develop their ability to think abstractly, they become more focused on understanding God's Word and its significance. As their independence grows, they still work closely as a patrol. Increasing strength and confidence make them well-suited for leadership roles during overnight campouts.</p>" +
+      '<p>With these added responsibilities, Mountain Lions have access to new opportunities. They can earn Fireguard and Woodsman cards, which grant them the privilege of tending fires and using their pocket knives during overnight campouts.</p>' +
+      '<p>A parent or guardian must accompany a Mountain Lion on overnight campouts. Mountain Lions are permitted to be in their own tent.</p>',
+  },
 ];
 
 const branches = [
@@ -33,7 +61,7 @@ const branches = [
   <Section tone="cream" class="narrow-content">
     <p>The Woodlands Trail is the first part of an exciting journey for a boy in Trail Life USA. It is for boys between the ages of 5 and 10.</p>
     <p class="scripture">"Through wisdom a house is built, and by understanding it is established; by knowledge the rooms are filled with all precious and pleasant riches."<cite>Proverbs 24:3–4</cite></p>
-    <p>Woodlands Trail is based on knowledge. Each troop is grouped according to biblical principles, led by a Ranger, and each patrol has a designated trail guide.</p>
+    <p>Woodlands Trail is based on <strong>knowledge</strong>. Each troop is grouped according to biblical principles, led by a <strong>Ranger</strong>, and each patrol has a designated trail guide.</p>
   </Section>
 
   <Section tone="light" class="centered-heading">
@@ -48,7 +76,7 @@ const branches = [
             </div>
             <img class="card-header-icon" src={p.image} alt={`${p.name} badge`} loading="lazy" />
           </div>
-          <p>{p.text}</p>
+          <div class="patrol-copy" set:html={p.html} />
         </Card>
       ))}
     </div>
@@ -62,7 +90,7 @@ const branches = [
       </div>
       <p>Also known as the branch patch, the Joining Award is worn proudly by Trailmen upon completing the following core steps:</p>
       <ul>
-        <li>Memorize the Trailman Oath.</li>
+        <li>Memorize the <a href="/about#oath">Trailman Oath</a>.</li>
         <li>Learn the Trailman Sign and when to use it.</li>
         <li>Learn the Trailman Salute and when to use it.</li>
         <li>Learn the Trailman Handshake.</li>
@@ -104,9 +132,10 @@ const branches = [
   </Section>
 
   <Section tone="dark" narrow>
-    <Card class="oath-card" image="/images/programs/wt-timberline-award.svg" imageAlt="Timberline Award">
+    <Card class="oath-card card-capstone no-border">
       <h2>Timberline Award</h2>
-      <p>The Timberline Award is the highest award a Trailman can achieve in the Woodlands Trail program. It is only available during their last year in the Woodlands Trail as a Mountain Lion, developed to celebrate a boy's entrance into the Navigators program. Once earned, it becomes a permanent part of the Trail Life uniform.</p>
+      <img class="card-icon" src="/images/programs/wt-timberline-award.svg" alt="Timberline Award" loading="lazy" />
+      <p>The Timberline Award is the highest award a Trailman can achieve in the Woodlands Trail program. It is only available during <strong>their last year</strong> in the Woodlands Trail as a <strong>Mountain Lion</strong>, developed to celebrate a boy's entrance into the Navigators program. <span class="text-accent">Once earned, it becomes a permanent part of the Trail Life uniform.</span></p>
       <p><strong>Manhood Principles of the Timberline Award:</strong></p>
       <ul>
         <li>To live boldly and avoid being passive.</li>
