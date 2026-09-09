@@ -207,6 +207,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--red); outline-o
 .site-footer a { color: var(--tan); }
 
 /* ---- Calendar (FullCalendar, themed to the brand palette) ---- */
+.calendar-intro { margin-bottom: 1.5rem; color: var(--ink); }
 #troop-calendar {
   --fc-border-color: #e5e0d8;
   --fc-page-bg-color: #fff;
@@ -218,14 +219,46 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--red); outline-o
   --fc-button-hover-border-color: #8f1e24;
   --fc-button-active-bg-color: #8f1e24;
   --fc-button-active-border-color: #8f1e24;
+  /* These three theme every event uniformly — both the solid "block" bars used
+     for all-day/multi-day events AND the dot used for normal timed events in
+     month view (FullCalendar derives the dot's color from these too), unlike
+     targeting .fc-daygrid-event directly, which only covers block-style
+     rendering and left timed events as a bare dot with no visible text. */
+  --fc-event-bg-color: var(--navy);
+  --fc-event-border-color: var(--navy);
+  --fc-event-text-color: #fff;
   font-family: var(--font-body);
 }
 #troop-calendar .fc-toolbar-title { font-family: var(--font-body); font-weight: 800; color: var(--brown-dark); font-size: 1.4rem; }
+#troop-calendar .fc-button { text-transform: none; }
 #troop-calendar .fc-daygrid-day-number, #troop-calendar .fc-list-day-text, #troop-calendar .fc-list-day-side-text { color: var(--ink); text-decoration: none; }
+#troop-calendar .fc-daygrid-dot-event .fc-event-title, #troop-calendar .fc-daygrid-dot-event .fc-event-time { color: var(--ink); }
 #troop-calendar .fc-event { cursor: pointer; }
-#troop-calendar .fc-daygrid-event { background: var(--navy); border-color: var(--navy); }
 #troop-calendar .fc-list-event:hover td { background: var(--cream); }
 .calendar-error { text-align: center; color: var(--brown-dark); padding: 2rem 0; }
+
+/* Custom hover/tap popover — FullCalendar's free tier has no built-in popover,
+   only a plain title attribute, so this is hand-rolled: a fixed-position card
+   shown on eventMouseEnter/eventClick, positioned under the hovered event. */
+.calendar-popover {
+  display: none;
+  position: absolute;
+  z-index: 100;
+  max-width: 300px;
+  background: #fff;
+  border-top: 4px solid var(--navy);
+  border-radius: 4px;
+  box-shadow: 0 12px 28px rgba(0,0,0,.18);
+  padding: 1rem 1.2rem;
+  font-size: .9rem;
+  line-height: 1.5;
+  pointer-events: none;
+}
+.calendar-popover.is-visible { display: block; }
+.calendar-popover strong { display: block; color: var(--brown-dark); font-size: 1rem; margin-bottom: .3rem; }
+.calendar-popover-time { display: block; color: var(--red); font-weight: 700; font-size: .82rem; text-transform: uppercase; letter-spacing: .03em; }
+.calendar-popover-location { display: block; color: var(--brown); font-size: .85rem; margin-top: .2rem; }
+.calendar-popover p { margin: .6rem 0 0; color: var(--ink); }
 
 @media (max-width: 900px) {
   .header-inner { min-height: 78px; }
