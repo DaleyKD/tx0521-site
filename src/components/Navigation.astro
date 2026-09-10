@@ -15,11 +15,35 @@ function linkProps(item: NavItem): Record<string, string> {
   <NavList items={navigation} depth={0} isActive={isActive} linkProps={linkProps} />
 </nav>
 <script>
-  document.querySelectorAll<HTMLButtonElement>('.submenu-button').forEach((item) => {
-    item.addEventListener('click', () => {
-      const parent = item.parentElement;
-      const open = parent?.classList.toggle('expanded');
-      item.setAttribute('aria-expanded', String(open));
+  const nav = document.querySelector<HTMLElement>('.primary-nav');
+
+  function toggleSubmenu(button: HTMLButtonElement) {
+    const parent = button.closest('li.has-menu');
+    const open = parent?.classList.toggle('expanded');
+    button.setAttribute('aria-expanded', String(open));
+
+    // A collapse/expand reflows the menu (items above shift up or down).
+    // Briefly ignore taps on the rest of the nav so a tap that lands right
+    // as that happens can't hit whatever item just moved into its place.
+    if (nav) {
+      nav.style.pointerEvents = 'none';
+      window.setTimeout(() => {
+        nav.style.pointerEvents = '';
+      }, 260);
+    }
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('.submenu-button').forEach((button) => {
+    button.addEventListener('click', () => toggleSubmenu(button));
+  });
+
+  // A group label with no destination of its own (e.g. "Programs", "Links")
+  // — make the whole row a tap target, not just the small chevron.
+  document.querySelectorAll<HTMLElement>('.menu-row-no-link').forEach((row) => {
+    row.addEventListener('click', (e) => {
+      if ((e.target as Element).closest('.submenu-button')) return; // avoid double-toggling
+      const button = row.querySelector<HTMLButtonElement>('.submenu-button');
+      if (button) toggleSubmenu(button);
     });
   });
 </script>
