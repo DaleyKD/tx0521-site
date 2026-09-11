@@ -83,7 +83,8 @@ async function handleCalendar(request, env, ctx) {
     // good copy in KV rather than showing a broken calendar.
     const stale = await readKvBackup(env);
     if (stale) return jsonResponse(stale.events, 'kv-fallback');
-    return new Response(JSON.stringify({ error: 'Unable to load calendar', detail: String(err) }), {
+    console.error('Calendar fetch failed', err);
+    return new Response(JSON.stringify({ error: 'Unable to load calendar' }), {
       status: 502,
       headers: { 'content-type': 'application/json' },
     });
@@ -243,7 +244,8 @@ function contactSuccess() {
 }
 
 function contactError(error, status, cause) {
-  return new Response(JSON.stringify({ ok: false, error, detail: cause ? String(cause) : undefined }), {
+  if (cause) console.error('Contact form error', cause);
+  return new Response(JSON.stringify({ ok: false, error }), {
     status,
     headers: { 'content-type': 'application/json' },
   });
