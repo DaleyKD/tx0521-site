@@ -1,11 +1,11 @@
 name: CI
 
-# Validates every PR into master (branch protection requires this to pass
-# before merging). Cloudflare only builds/deploys master itself — this is
+# Validates every PR into main (branch protection requires this to pass
+# before merging). Cloudflare only builds/deploys main itself — this is
 # where non-production branches get checked.
 on:
   pull_request:
-    branches: [master]
+    branches: [main]
 
 permissions:
   contents: read
