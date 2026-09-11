@@ -7,6 +7,11 @@ compatibility_date = "2026-09-09"
 # builds) — disable explicitly rather than leaving it to the workers.dev default.
 preview_urls = false
 
+# Keep the *.workers.dev URL disabled. Without this explicit key, Wrangler
+# defaults to workers_dev = true on every deploy, which silently re-enables
+# the URL each time Cloudflare's git-integrated build redeploys main.
+workers_dev = false
+
 [assets]
 directory = "./dist"
 binding = "ASSETS"
