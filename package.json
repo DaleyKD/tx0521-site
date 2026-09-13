@@ -21,7 +21,7 @@
     "fullcalendar": "^7.1.0",
     "ical.js": "^2.2.1",
     "mimetext": "^3.0.28",
-    "temporal-polyfill": "^1.0.4"
+    "temporal-polyfill": "^1.0.5"
   },
   "allowScripts": {
     "esbuild": true,
@@ -37,6 +37,6 @@
     "globals": "^17.12.0",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.70.0",
-    "wrangler": "^4.131.0"
+    "wrangler": "^4.131.1"
   }
 }
