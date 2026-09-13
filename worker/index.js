@@ -40,6 +40,15 @@ const CONTACT_FROM_ADDRESS = 'noreply@tx0521.org';
 const TURNSTILE_ACTION = 'contact';
 const TURNSTILE_VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 
+// Old WordPress URLs (and any other short/legacy paths we want to keep
+// working) that now live somewhere else in the Astro site. Add new entries
+// here rather than setting up Cloudflare dashboard redirect rules — this way
+// they're versioned with the rest of the routing.
+const REDIRECTS = {
+  '/join': '/about/join',
+  '/uniforms': '/about/uniforms',
+};
+
 // How far back/forward to expand recurring events (weekly troop meetings, etc.)
 // into concrete instances, so the client never needs an RRULE-aware calendar plugin.
 const WINDOW_PAST_DAYS = 60;
@@ -48,6 +57,11 @@ const WINDOW_FUTURE_DAYS = 365;
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+
+    const redirectTarget = REDIRECTS[url.pathname];
+    if (redirectTarget) {
+      return Response.redirect(new URL(redirectTarget, url), 301);
+    }
 
     if (url.pathname === '/api/calendar' && request.method === 'GET') {
       return handleCalendar(request, env, ctx);
