@@ -17,6 +17,14 @@ directory = "./dist"
 binding = "ASSETS"
 not_found_handling = "404-page"
 html_handling = "drop-trailing-slash"
+# Browser navigations (requests carrying `Sec-Fetch-Mode: navigate`) to a path
+# that doesn't match a built file are resolved straight from not_found_handling
+# above, without the Worker ever running — so a plain fetch()/curl to a
+# redirected path works (it reaches the Worker) while a real browser visit to
+# the same URL just gets the 404 page. Forcing the Worker to run first for
+# these specific paths is what makes worker/index.js's REDIRECTS map actually
+# fire for real browser navigation, too.
+run_worker_first = ["/join", "/uniforms"]
 
 [[kv_namespaces]]
 binding = "CALENDAR_KV"
