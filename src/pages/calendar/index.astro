@@ -1,8 +1,6 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import Section from '../../components/Section.astro';
-
-const ICAL_FEED_URL = 'https://www.traillifeconnect.com/icalendar/tkbapf3m5536/na/public';
 ---
 <PageLayout
   title="Calendar"
@@ -15,8 +13,7 @@ const ICAL_FEED_URL = 'https://www.traillifeconnect.com/icalendar/tkbapf3m5536/n
     <div id="troop-calendar" data-events-url="/api/calendar"></div>
     <p class="calendar-intro">Synced from TrailLifeConnect. Hover or tap any event for details.</p>
     <p id="calendar-error" class="calendar-error" hidden>
-      We couldn't load the calendar right now. You can still
-      <a href={ICAL_FEED_URL} target="_blank" rel="noreferrer">view or subscribe to it directly</a>.
+      We couldn't load the calendar right now. Please check back later.
     </p>
   </Section>
 </PageLayout>
