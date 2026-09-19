@@ -17,14 +17,14 @@ directory = "./dist"
 binding = "ASSETS"
 not_found_handling = "404-page"
 html_handling = "drop-trailing-slash"
-# Browser navigations (requests carrying `Sec-Fetch-Mode: navigate`) to a path
-# that doesn't match a built file are resolved straight from not_found_handling
-# above, without the Worker ever running — so a plain fetch()/curl to a
-# redirected path works (it reaches the Worker) while a real browser visit to
-# the same URL just gets the 404 page. Forcing the Worker to run first for
-# these specific paths is what makes worker/index.js's REDIRECTS map actually
-# fire for real browser navigation, too.
-run_worker_first = ["/join", "/uniforms"]
+# Any request path that doesn't match a built file in dist/ is resolved
+# straight from not_found_handling above, without the Worker ever running —
+# this bit us for /api/calendar too, not just navigations: the browser's own
+# fetch() to it was getting the 404 page's HTML back instead of reaching the
+# Worker. Forcing the Worker to run first for these paths is what makes
+# worker/index.js's REDIRECTS map and API routes actually work. "/api/*"
+# covers every API route (present and future) with one rule.
+run_worker_first = ["/join", "/uniforms", "/api/*"]
 
 [[kv_namespaces]]
 binding = "CALENDAR_KV"
