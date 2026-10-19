@@ -3,8 +3,22 @@ interface Props { name: string; role: string; image: string; bio?: string; }
 const { name, role, image, bio } = Astro.props;
 ---
 <article class="leader">
-  <div class="leader-photo"><img src={image} alt={`Portrait of ${name}`} width="160" height="160" loading="lazy" /></div>
+  <button type="button" class="leader-photo" data-lightbox aria-label={`Enlarge portrait of ${name}`}>
+    <img src={image} alt={`Portrait of ${name}`} width="160" height="160" loading="lazy" />
+  </button>
+  <dialog class="lightbox" aria-label={`Portrait of ${name}`}>
+    <img src={image} alt={`Portrait of ${name}`} width="400" height="400" loading="lazy" />
+    <button type="button" class="lightbox-close" aria-label="Close">&times;</button>
+  </dialog>
   <h3>{name}</h3>
   <p class="eyebrow-label">{role}</p>
   {bio && <p class="leader-bio">{bio}</p>}
 </article>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-lightbox]').forEach((trigger) => {
+    const dialog = trigger.nextElementSibling as HTMLDialogElement;
+    trigger.addEventListener('click', () => dialog.showModal());
+    dialog.addEventListener('click', () => dialog.close());
+  });
+</script>
