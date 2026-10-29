@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
-    "astro": "^7.4.1",
+    "astro": "^7.4.4",
     "fullcalendar": "^7.1.3",
     "ical.js": "^2.2.1",
     "mimetext": "^3.0.28",
@@ -29,14 +29,14 @@
     "core-js-pure": true
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.11",
+    "@astrojs/check": "^0.9.12",
     "@eslint/js": "^10.0.1",
-    "@typescript-eslint/parser": "^8.72.0",
+    "@typescript-eslint/parser": "^8.72.1",
     "eslint": "^10.13.0",
     "eslint-plugin-astro": "^3.2.1",
     "globals": "^17.13.0",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.72.0",
-    "wrangler": "^4.151.2"
+    "typescript-eslint": "^8.72.1",
+    "wrangler": "^4.155.0"
   }
 }
